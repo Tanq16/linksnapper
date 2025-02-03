@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkSnapper</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LinkSnapper</h1>
+        
+        <!-- Add Link Form -->
+        <div class="add-link-form">
+            <h2>Add New Link</h2>
+            <form id="linkForm">
+                <div class="form-group">
+                    <label for="url">URL:</label>
+                    <input type="url" id="url" name="url" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <input type="text" id="category" name="category" value="Uncategorized">
+                </div>
+                <button type="submit">Add Link</button>
+            </form>
+        </div>
+
+        <!-- Links List -->
+        <div class="links-list">
+            <h2>Saved Links</h2>
+            <div id="linksList"></div>
+        </div>
+    </div>
+    <script src="/app.js"></script>
+</body>
+</html>
