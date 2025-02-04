@@ -8,11 +8,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>LinkSnapper</h1>
+        <div class="header">
+            <h1>LinkSnapper</h1>
+            <button id="addLinkBtn" class="add-button">+ Add Link</button>
+        </div>
         
-        <!-- Add Link Form -->
-        <div class="add-link-form">
-            <h2>Add New Link</h2>
+        <!-- Add Link Form (hidden by default) -->
+        <div id="addLinkForm" class="add-link-form" style="display: none;">
             <form id="linkForm">
                 <div class="form-group">
                     <label for="url">URL:</label>
@@ -27,17 +29,25 @@
                     <textarea id="description" name="description"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="category">Category:</label>
-                    <input type="text" id="category" name="category" value="Uncategorized">
+                    <label for="category">Category (use / for nesting):</label>
+                    <input type="text" id="category" name="category" placeholder="e.g. Tech/Go or leave empty">
                 </div>
-                <button type="submit">Add Link</button>
+                <div class="form-buttons">
+                    <button type="submit">Save</button>
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </div>
             </form>
         </div>
 
-        <!-- Links List -->
-        <div class="links-list">
-            <h2>Saved Links</h2>
-            <div id="linksList"></div>
+        <!-- Navigation and Content -->
+        <div class="navigation">
+            <div id="breadcrumb" class="breadcrumb">
+                <!-- Breadcrumb navigation will be inserted here -->
+            </div>
+        </div>
+
+        <div id="contentArea" class="content-area">
+            <!-- Categories and links will be inserted here -->
         </div>
     </div>
     <script src="/app.js"></script>

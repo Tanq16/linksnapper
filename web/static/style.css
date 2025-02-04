@@ -5,6 +5,27 @@
     font-family: Arial, sans-serif;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-button:hover {
+    background-color: #45a049;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
@@ -21,21 +42,89 @@ input, textarea {
     border-radius: 4px;
 }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
+.form-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.form-buttons button {
+    padding: 8px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #45a049;
+.form-buttons button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.form-buttons button[type="button"] {
+    background-color: #f44336;
+    color: white;
 }
 
 .links-list {
-    margin-top: 30px;
+    margin-top: 20px;
+}
+
+.category-group {
+    margin-bottom: 20px;
+}
+
+.category-group h3 {
+    padding-bottom: 5px;
+    border-bottom: 2px solid #4CAF50;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.breadcrumb {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.breadcrumb a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.categories-list, .links-list {
+    margin-top: 20px;
+}
+
+.category-item {
+    margin-bottom: 10px;
+}
+
+.category-item a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.category-item a:hover {
+    text-decoration: underline;
 }
 
 .link-item {
@@ -45,11 +134,89 @@ button:hover {
     border-radius: 4px;
 }
 
-.link-item h3 {
+.link-item h4 {
     margin: 0 0 5px 0;
 }
 
 .link-item p {
     margin: 5px 0;
     color: #666;
+}
+
+/* Add these styles to your existing CSS */
+.link-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 8px;
+}
+
+.delete-btn:hover {
+    color: #f44336;
+}
+
+.categories-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.category-item {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding: 8px 16px;
+}
+
+.category-link {
+    color: #4CAF50;
+    text-decoration: none;
+    display: block;
+}
+
+.category-link:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.breadcrumb a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.link-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 8px;
+}
+
+.delete-btn:hover {
+    color: #f44336;
 }

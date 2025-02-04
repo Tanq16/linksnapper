@@ -2,7 +2,10 @@ module github.com/tanq16/linksnapper
 
 go 1.23.4
 
-require github.com/rs/zerolog v1.33.0
+require (
+	github.com/google/uuid v1.6.0
+	github.com/rs/zerolog v1.33.0
+)
 
 require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
