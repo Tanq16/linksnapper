@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Render subcategories
         if (subCategories.length > 0) {
-            html += '<div class="categories-list">';
             html += '<h3>Categories</h3>';
+            html += '<div class="categories-list">';
             html += '<div class="categories-grid">';
             subCategories.forEach(category => {
                 html += `<div class="category-item">
@@ -123,8 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Render links in current category
         if (currentLevelLinks.length > 0) {
-            html += '<div class="links-list">';
             html += '<h3>Links</h3>';
+            html += '<div class="links-list">';
             currentLevelLinks.forEach(link => {
                 html += `<div class="link-item">
                     <div class="link-header">
