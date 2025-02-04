@@ -1,5 +1,5 @@
 <p align="center">
-<img src="/api/placeholder/250/250" alt="LinkSnapper Logo" /><br>
+<img src="/assets/logo.png" alt="LinkSnapper Logo" width=250px /><br>
 <h1 align="center">LinkSnapper</h1><br>
 
 <p align="center">
@@ -50,7 +50,10 @@ There are numerous bookmark managers available, and they're great. My personal f
 
 # Screenshots
 
-`WIP`
+| | Desktop View | Mobile View |
+| --- | --- | --- |
+| Light | <img src="/assets/dlight.png" alt="Light" /> | <img src="/assets/mlight.png" alt="Mobile Light" /> |
+| Dark | <img src="/assets/ddark.png" alt="Dark" /> | <img src="/assets/mdark.png" alt="Mobile Dark" /> |
 
 > [!TIP]
 > The interface automatically adapts to system preferences for themes. The views are optimized for both desktop and mobile use.
