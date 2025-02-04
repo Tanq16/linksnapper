@@ -5,7 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const cancelBtn = document.getElementById('cancelBtn');
     const contentArea = document.getElementById('contentArea');
     const breadcrumb = document.getElementById('breadcrumb');
+    const searchInput = document.getElementById('searchInput');
     
+    let searchTimeout;
+    let isSearching = false;
     let currentLinks = [];
     let currentPath = [];
 
@@ -13,7 +16,96 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchData();
     setupCategoryAutocomplete();
 
-    // Toggle form visibility
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+        // Set a new timeout to prevent too many updates
+        searchTimeout = setTimeout(() => {
+            isSearching = searchTerm !== '';
+            if (isSearching) {
+                const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 0);
+                const searchResults = currentLinks.filter(link => {
+                    const name = (link.name || '').toLowerCase();
+                    const description = (link.description || '').toLowerCase();
+                    const url = link.url.toLowerCase();
+                    const path = link.path.join(' ').toLowerCase();
+                    const allContent = `${name} ${description} ${url} ${path}`;
+                    // Check if all search words appear in the content in any order
+                    return searchWords.every(word => allContent.includes(word));
+                });
+                renderSearchResults(searchResults, searchTerm);
+            } else {
+                renderCurrentLevel();
+            }
+        }, 300);
+    });
+
+    function renderSearchResults(results, searchTerm) {
+        let html = `<h3>Search Results for "${searchTerm}"</h3>`;
+        if (results.length === 0) {
+            html += '<p>No matches found</p>';
+        } else {
+            html += '<div class="links-list">';
+            results.forEach(link => {
+                html += `<div class="link-item">
+                    <div class="link-header">
+                        <h4><a href="${link.url}" target="_blank">${link.name}</a></h4>
+                        <div class="link-actions">
+                            <button class="edit-btn" data-id="${link.id}">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button class="delete-btn" data-id="${link.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    ${link.description ? `<p>${link.description}</p>` : ''}
+                    <div class="search-path">In: ${link.path.join(' > ')}</div>
+                </div>`;
+            });
+            html += '</div>';
+        }
+        contentArea.innerHTML = html;
+        attachLinkActionHandlers();
+    }
+
+    function attachLinkActionHandlers() {
+        // Add click handlers for delete buttons
+        contentArea.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = e.target.closest('.delete-btn').dataset.id;
+                const linkElement = e.target.closest('.link-item');
+                const linkName = linkElement.querySelector('h4 a').textContent;
+                if (confirm(`Are you sure you want to delete "${linkName}"?`)) {
+                    try {
+                        const response = await fetch(`/api/links/${id}`, {
+                            method: 'DELETE'
+                        });
+                        if (!response.ok) {
+                            throw new Error('Failed to delete link');
+                        }
+                        fetchData();
+                    } catch (error) {
+                        console.error('Error deleting link:', error);
+                        alert('Failed to delete link');
+                    }
+                }
+            });
+        });
+        // Add click handlers for edit buttons
+        contentArea.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                const link = currentLinks.find(l => l.id === id);
+                if (link) {
+                    showEditForm(link);
+                }
+            });
+        });
+    }
+
     addLinkBtn.addEventListener('click', () => {
         addLinkForm.style.display = 'block';
         addLinkBtn.style.display = 'none';
@@ -30,22 +122,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle form submission
     linkForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
         const formData = {
             url: document.getElementById('url').value,
             name: document.getElementById('name').value || document.getElementById('url').value,
             description: document.getElementById('description').value,
             path: document.getElementById('category').value.split('/').filter(p => p.trim() !== '')
         };
-    
         if (formData.path.length === 0) {
             formData.path = ['Uncategorized'];
         }
-    
         try {
             let response;
             if (this.dataset.mode === 'edit') {
-                // Edit existing link
                 response = await fetch(`/api/links/${this.dataset.editId}`, {
                     method: 'PUT',
                     headers: {
@@ -54,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify(formData)
                 });
             } else {
-                // Add new link
                 response = await fetch('/api/links', {
                     method: 'POST',
                     headers: {
@@ -63,19 +150,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify(formData)
                 });
             }
-    
             if (!response.ok) {
                 throw new Error(this.dataset.mode === 'edit' ? 'Failed to update link' : 'Failed to add link');
             }
     
-            // Reset form and UI
             this.reset();
             delete this.dataset.mode;
             delete this.dataset.editId;
             addLinkForm.style.display = 'none';
             addLinkBtn.style.display = 'block';
-            
-            // Refresh the view
             fetchData();
         } catch (error) {
             console.error('Error:', error);
@@ -89,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!response.ok) {
                 throw new Error('Failed to fetch links');
             }
-            
             const links = await response.json();
             currentLinks = links;
             renderCurrentLevel();
@@ -102,14 +184,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderBreadcrumb() {
         const items = [`<a href="#" data-path="">Home</a>`];
         let currentPathStr = '';
-        
         currentPath.forEach((segment, index) => {
             currentPathStr += (currentPathStr ? '/' : '') + segment;
             items.push(`<a href="#" data-path="${currentPathStr}">${segment}</a>`);
         });
-
         breadcrumb.innerHTML = items.join(' > ');
-
         breadcrumb.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -122,10 +201,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderCurrentLevel() {
         renderBreadcrumb();
-
         const currentLevelLinks = filterLinksByPath(currentPath);
         const subCategories = getSubCategories(currentPath);
-        
         let html = '';
 
         // Render subcategories
@@ -167,7 +244,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentLevelLinks.length === 0 && subCategories.length === 0) {
             html = '<p>No content in this category</p>';
         }
-
         contentArea.innerHTML = html;
 
         // Add click handlers for categories
@@ -186,7 +262,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const id = e.target.closest('.delete-btn').dataset.id;
                 const linkElement = e.target.closest('.link-item');
                 const linkName = linkElement.querySelector('h4 a').textContent;
-                
                 if (confirm(`Are you sure you want to delete "${linkName}"?`)) {
                     try {
                         const response = await fetch(`/api/links/${id}`, {
@@ -195,7 +270,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (!response.ok) {
                             throw new Error('Failed to delete link');
                         }
-                        // Refresh the view
                         fetchData();
                     } catch (error) {
                         console.error('Error deleting link:', error);
@@ -225,7 +299,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function getSubCategories(currentPath) {
         const pathStr = currentPath.join('/');
         const subCategories = new Set();
-
         currentLinks.forEach(link => {
             const linkPathStr = link.path.join('/');
             if (linkPathStr.startsWith(pathStr + (pathStr ? '/' : ''))) {
@@ -236,7 +309,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-
         return Array.from(subCategories).sort();
     }
 
@@ -281,14 +353,12 @@ document.addEventListener('DOMContentLoaded', function() {
         suggestionsDiv.className = 'category-suggestions';
         suggestionsDiv.style.display = 'none';
         categoryInput.parentNode.appendChild(suggestionsDiv);
-    
         categoryInput.addEventListener('input', () => {
             const value = categoryInput.value.toLowerCase();
             const paths = getAllUniquePaths();
             const matches = paths.filter(path => 
                 path.toLowerCase().includes(value)
             );
-    
             if (matches.length > 0 && value) {
                 suggestionsDiv.innerHTML = matches
                     .map(path => `<div class="suggestion-item">${path}</div>`)
@@ -318,7 +388,6 @@ document.addEventListener('DOMContentLoaded', function() {
         categoryInput.addEventListener('keydown', (e) => {
             const items = suggestionsDiv.getElementsByClassName('suggestion-item');
             const activeItem = suggestionsDiv.querySelector('.suggestion-item.active');
-            
             switch(e.key) {
                 case 'ArrowDown':
                     e.preventDefault();
@@ -333,7 +402,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         activeItem.nextElementSibling.classList.add('active');
                     }
                     break;
-                    
                 case 'ArrowUp':
                     e.preventDefault();
                     if (activeItem && activeItem.previousElementSibling) {
@@ -341,7 +409,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         activeItem.previousElementSibling.classList.add('active');
                     }
                     break;
-                    
                 case 'Enter':
                     if (activeItem) {
                         e.preventDefault();
@@ -349,7 +416,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         suggestionsDiv.style.display = 'none';
                     }
                     break;
-                    
                 case 'Escape':
                     suggestionsDiv.style.display = 'none';
                     break;

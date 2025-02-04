@@ -1,4 +1,4 @@
-package models
+package internal
 
 type Link struct {
 	ID          string   `json:"id"`
@@ -14,7 +14,6 @@ type Category struct {
 	Categories map[string]*Category `json:"categories,omitempty"`
 }
 
-// NewCategory creates a new Category with the given name and path
 func NewCategory(name string, path []string) *Category {
 	return &Category{
 		Name:       name,
