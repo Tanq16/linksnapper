@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load initial categories and links
     fetchData();
+    setupCategoryAutocomplete();
 
     // Toggle form visibility
     addLinkBtn.addEventListener('click', () => {
@@ -22,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
         addLinkForm.style.display = 'none';
         addLinkBtn.style.display = 'block';
         linkForm.reset();
+        delete linkForm.dataset.mode;
+        delete linkForm.dataset.editId;
     });
 
     // Handle form submission
@@ -34,31 +37,49 @@ document.addEventListener('DOMContentLoaded', function() {
             description: document.getElementById('description').value,
             path: document.getElementById('category').value.split('/').filter(p => p.trim() !== '')
         };
-
+    
         if (formData.path.length === 0) {
             formData.path = ['Uncategorized'];
         }
-
+    
         try {
-            const response = await fetch('/api/links', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to add link');
+            let response;
+            if (this.dataset.mode === 'edit') {
+                // Edit existing link
+                response = await fetch(`/api/links/${this.dataset.editId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+            } else {
+                // Add new link
+                response = await fetch('/api/links', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
             }
-
-            linkForm.reset();
+    
+            if (!response.ok) {
+                throw new Error(this.dataset.mode === 'edit' ? 'Failed to update link' : 'Failed to add link');
+            }
+    
+            // Reset form and UI
+            this.reset();
+            delete this.dataset.mode;
+            delete this.dataset.editId;
             addLinkForm.style.display = 'none';
             addLinkBtn.style.display = 'block';
+            
+            // Refresh the view
             fetchData();
         } catch (error) {
             console.error('Error:', error);
-            alert('Failed to add link');
+            alert(error.message);
         }
     });
 
@@ -186,17 +207,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Add click handlers for edit buttons
         contentArea.querySelectorAll('.edit-btn').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                try {
-                    const response = await fetch('/api/health');
-                    if (!response.ok) {
-                        throw new Error('Failed to send edit request');
-                    }
-                    // For now, just show an alert
-                    alert('Edit functionality coming soon!');
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Failed to process edit request');
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                const link = currentLinks.find(l => l.id === id);
+                if (link) {
+                    showEditForm(link);
                 }
             });
         });
@@ -223,5 +238,122 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         return Array.from(subCategories).sort();
+    }
+
+    function showEditForm(link) {
+        const addLinkForm = document.getElementById('addLinkForm');
+        const addLinkBtn = document.getElementById('addLinkBtn');
+        const linkForm = document.getElementById('linkForm');
+        
+        // Show the form
+        addLinkForm.style.display = 'block';
+        addLinkBtn.style.display = 'none';
+        
+        // Populate form fields
+        document.getElementById('url').value = link.url;
+        document.getElementById('name').value = link.name;
+        document.getElementById('description').value = link.description || '';
+        document.getElementById('category').value = link.path.join('/');
+        
+        // Add data attribute to form for edit mode
+        linkForm.dataset.mode = 'edit';
+        linkForm.dataset.editId = link.id;
+    }
+
+    function getAllUniquePaths() {
+        const paths = new Set();
+        currentLinks.forEach(link => {
+            // Add full path
+            paths.add(link.path.join('/'));
+            // Add partial paths
+            let partialPath = '';
+            link.path.forEach(segment => {
+                partialPath = partialPath ? `${partialPath}/${segment}` : segment;
+                paths.add(partialPath);
+            });
+        });
+        return Array.from(paths).sort();
+    }
+    
+    function setupCategoryAutocomplete() {
+        const categoryInput = document.getElementById('category');
+        const suggestionsDiv = document.createElement('div');
+        suggestionsDiv.className = 'category-suggestions';
+        suggestionsDiv.style.display = 'none';
+        categoryInput.parentNode.appendChild(suggestionsDiv);
+    
+        categoryInput.addEventListener('input', () => {
+            const value = categoryInput.value.toLowerCase();
+            const paths = getAllUniquePaths();
+            const matches = paths.filter(path => 
+                path.toLowerCase().includes(value)
+            );
+    
+            if (matches.length > 0 && value) {
+                suggestionsDiv.innerHTML = matches
+                    .map(path => `<div class="suggestion-item">${path}</div>`)
+                    .join('');
+                suggestionsDiv.style.display = 'block';
+            } else {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+    
+        // Handle clicking on a suggestion
+        suggestionsDiv.addEventListener('click', (e) => {
+            if (e.target.classList.contains('suggestion-item')) {
+                categoryInput.value = e.target.textContent;
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+    
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!categoryInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+    
+        // Handle keyboard navigation
+        categoryInput.addEventListener('keydown', (e) => {
+            const items = suggestionsDiv.getElementsByClassName('suggestion-item');
+            const activeItem = suggestionsDiv.querySelector('.suggestion-item.active');
+            
+            switch(e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    if (suggestionsDiv.style.display === 'none') {
+                        categoryInput.dispatchEvent(new Event('input'));
+                        return;
+                    }
+                    if (!activeItem && items.length > 0) {
+                        items[0].classList.add('active');
+                    } else if (activeItem && activeItem.nextElementSibling) {
+                        activeItem.classList.remove('active');
+                        activeItem.nextElementSibling.classList.add('active');
+                    }
+                    break;
+                    
+                case 'ArrowUp':
+                    e.preventDefault();
+                    if (activeItem && activeItem.previousElementSibling) {
+                        activeItem.classList.remove('active');
+                        activeItem.previousElementSibling.classList.add('active');
+                    }
+                    break;
+                    
+                case 'Enter':
+                    if (activeItem) {
+                        e.preventDefault();
+                        categoryInput.value = activeItem.textContent;
+                        suggestionsDiv.style.display = 'none';
+                    }
+                    break;
+                    
+                case 'Escape':
+                    suggestionsDiv.style.display = 'none';
+                    break;
+            }
+        });
     }
 });

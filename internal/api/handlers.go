@@ -33,7 +33,16 @@ func (s *Server) NewRouter() http.Handler {
 	mux.HandleFunc("/api/health", s.handleHealth)
 	mux.HandleFunc("/api/links", s.handleLinks)
 	mux.HandleFunc("/api/categories", s.handleCategories)
-	mux.HandleFunc("/api/links/", s.handleLinkDelete)
+	mux.HandleFunc("/api/links/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodDelete:
+			s.handleLinkDelete(w, r)
+		case http.MethodPut:
+			s.handleLinkEdit(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
 
 	// Serve static files, including index.html
 	fileServer := http.FileServer(http.FS(static))
@@ -103,6 +112,34 @@ func (s *Server) handleLinkDelete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func (s *Server) handleLinkEdit(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPut {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Extract ID from URL path
+	id := strings.TrimPrefix(r.URL.Path, "/api/links/")
+	if id == "" {
+		http.Error(w, "Invalid link ID", http.StatusBadRequest)
+		return
+	}
+
+	var updatedLink models.Link
+	if err := json.NewDecoder(r.Body).Decode(&updatedLink); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if err := s.store.UpdateLink(id, updatedLink); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(updatedLink)
 }
 
 func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {

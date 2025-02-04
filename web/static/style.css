@@ -312,7 +312,7 @@
   
   h3 {
     color: var(--text);
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 500;
     text-align: center;
     margin: 2.5rem auto 2rem;
@@ -397,4 +397,40 @@
 
 .link-actions i {
     font-size: 1rem;
+}
+
+/* Add to web/static/style.css */
+
+.category-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    margin-top: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 6px var(--shadow);
+}
+
+.suggestion-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text);
+}
+
+.suggestion-item:hover,
+.suggestion-item.active {
+    background-color: color-mix(in srgb, var(--surface) 90%, var(--primary));
+    color: var(--primary);
+}
+
+/* Update the form-group class to handle suggestions dropdown */
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative; /* Add this line */
 }

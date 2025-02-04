@@ -2,6 +2,7 @@ package store
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
@@ -72,6 +73,23 @@ func (s *Store) DeleteLink(id string) error {
 	}
 
 	return nil
+}
+
+func (s *Store) UpdateLink(id string, updatedLink models.Link) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	// Find and update the link
+	for i, link := range s.links {
+		if link.ID == id {
+			// Preserve the ID
+			updatedLink.ID = id
+			s.links[i] = updatedLink
+			return s.saveToFile()
+		}
+	}
+
+	return fmt.Errorf("link not found")
 }
 
 func (s *Store) GetLinks() []models.Link {
