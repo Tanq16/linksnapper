@@ -145,6 +145,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    font-size: 1.2rem;
     align-items: center;
   }
   
@@ -234,6 +235,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
@@ -272,21 +274,6 @@
   
   .link-header a:hover {
     color: var(--primary-hover);
-  }
-  
-  .delete-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 1.25rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-  }
-  
-  .delete-btn:hover {
-    color: var(--delete);
-    background-color: var(--border);
   }
   
   .link-item p {
@@ -355,18 +342,59 @@
   /* Improved Mobile Styles */
   @media (max-width: 480px) {
     .header h1 {
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
   
     .add-button {
-      width: 100%;
+      width: auto;
     }
   
     .breadcrumb {
-      font-size: 0.9rem;
+      font-size: 1.2rem;
     }
   
     .link-item {
       padding: 1rem;
     }
   }
+
+.link-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.edit-btn,
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.edit-btn {
+    color: var(--text-secondary);
+}
+
+.delete-btn {
+    color: var(--text-secondary);
+}
+
+.edit-btn:hover {
+    color: var(--primary);
+    background-color: var(--border);
+}
+
+.delete-btn:hover {
+    color: var(--delete);
+    background-color: var(--border);
+}
+
+.link-actions i {
+    font-size: 1rem;
+}

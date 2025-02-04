@@ -89,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         breadcrumb.innerHTML = items.join(' > ');
 
-        // Add click handlers to breadcrumb links
         breadcrumb.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -129,7 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 html += `<div class="link-item">
                     <div class="link-header">
                         <h4><a href="${link.url}" target="_blank">${link.name}</a></h4>
-                        <button class="delete-btn" data-id="${link.id}">x</button>
+                        <div class="link-actions">
+                            <button class="edit-btn" data-id="${link.id}">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button class="delete-btn" data-id="${link.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
                     </div>
                     ${link.description ? `<p>${link.description}</p>` : ''}
                 </div>`;
@@ -156,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add click handlers for delete buttons
         contentArea.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', async (e) => {
-                const id = e.target.dataset.id;
+                const id = e.target.closest('.delete-btn').dataset.id;
                 const linkElement = e.target.closest('.link-item');
                 const linkName = linkElement.querySelector('h4 a').textContent;
                 
@@ -174,6 +180,23 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.error('Error deleting link:', error);
                         alert('Failed to delete link');
                     }
+                }
+            });
+        });
+
+        // Add click handlers for edit buttons
+        contentArea.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/api/health');
+                    if (!response.ok) {
+                        throw new Error('Failed to send edit request');
+                    }
+                    // For now, just show an alert
+                    alert('Edit functionality coming soon!');
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Failed to process edit request');
                 }
             });
         });
