@@ -42,6 +42,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 300);
     });
 
+    function renderLinkItem(link) {
+        const healthIndicator = getHealthIndicator(link);
+        return `<div class="link-item">
+            <div class="link-header">
+                <div class="link-title">
+                    <h4>
+                        <a href="${link.url}" target="_blank">${link.name}</a>
+                        ${healthIndicator}
+                    </h4>
+                </div>
+                <div class="link-actions">
+                    <button class="edit-btn" data-id="${link.id}">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button class="delete-btn" data-id="${link.id}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            ${link.description ? `<p>${link.description}</p>` : ''}
+        </div>`;
+    }
+    
+    function getHealthIndicator(link) {
+        if (!link.health || link.health.status === 'unknown') {
+            return '';
+        }
+        const tooltipText = link.health.status === 'unhealthy' 
+            ? `Unhealthy (${link.health.statusCode || 'Error'}: ${link.health.error || 'Unknown error'})`
+            : `Healthy (${link.health.statusCode})`;
+        const iconClass = link.health.status === 'unhealthy' 
+            ? 'fa-exclamation-triangle warning-icon' 
+            : 'fa-check-circle success-icon';
+        return `<span class="health-indicator" title="${tooltipText} ${link.lastChecked ? ` as of ${new Date(link.lastChecked).toLocaleDateString()}` : ''}">
+            <i class="fas ${iconClass}"></i>
+        </span>`;
+    }
+
     function renderSearchResults(results, searchTerm) {
         let html = `<h3>Search Results for "${searchTerm}"</h3>`;
         if (results.length === 0) {
@@ -49,21 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             html += '<div class="links-list">';
             results.forEach(link => {
-                html += `<div class="link-item">
-                    <div class="link-header">
-                        <h4><a href="${link.url}" target="_blank">${link.name}</a></h4>
-                        <div class="link-actions">
-                            <button class="edit-btn" data-id="${link.id}">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="delete-btn" data-id="${link.id}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                    ${link.description ? `<p>${link.description}</p>` : ''}
-                    <div class="search-path">In: ${link.path.join(' > ')}</div>
-                </div>`;
+                html += renderLinkItem(link);
             });
             html += '</div>';
         }
@@ -223,20 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
             html += '<h3>Links</h3>';
             html += '<div class="links-list">';
             currentLevelLinks.forEach(link => {
-                html += `<div class="link-item">
-                    <div class="link-header">
-                        <h4><a href="${link.url}" target="_blank">${link.name}</a></h4>
-                        <div class="link-actions">
-                            <button class="edit-btn" data-id="${link.id}">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="delete-btn" data-id="${link.id}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                    ${link.description ? `<p>${link.description}</p>` : ''}
-                </div>`;
+                html += renderLinkItem(link);
             });
             html += '</div>';
         }

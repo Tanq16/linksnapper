@@ -497,3 +497,29 @@
         width: 100%;
     }
 }
+
+.link-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.health-indicator {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.health-indicator .warning-icon {
+  color: #f34612;
+}
+
+.health-indicator .success-icon {
+  color: #61aa80;
+}
+
+/* Add hover effects for the indicators */
+.health-indicator:hover {
+  opacity: 0.8;
+}
