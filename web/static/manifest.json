@@ -1,0 +1,23 @@
+{
+    "name": "LinkSnapper",
+    "short_name": "LinkSnapper",
+    "description": "A sleek and minimalist bookmark manager",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#F5F0EE",
+    "theme_color": "#5B9BD5",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
