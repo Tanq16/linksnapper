@@ -18,12 +18,17 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>LinkSnapper</h1>
+            <div class="header-title">
+                <img src="/icon-512.png" alt="LinkSnapper Logo" class="header-logo">
+                <h1>LinkSnapper</h1>
+            </div>
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Search links..." class="search-input">
                 <i class="fas fa-search search-icon"></i>
             </div>
-            <button id="addLinkBtn" class="add-button">+ Add Link</button>
+            <button id="addLinkBtn" class="add-button" title="Add New Link">
+                <i class="fas fa-plus"></i>
+            </button>
         </div>
         
         <!-- Add Link Form (hidden by default) -->
