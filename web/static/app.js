@@ -43,18 +43,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function renderLinkItem(link) {
-        const healthIndicator = getHealthIndicator(link);
+        const healthIcon = link.health?.status === 'unhealthy' ? 'fa-exclamation-circle' : 'fa-check-circle';
+        const healthColor = link.health?.status === 'unhealthy' ? 'warning-icon' : 'success-icon';
+        const healthTitle = link.health?.status === 'unhealthy' 
+            ? `Unhealthy (${link.health.statusCode || 'Error'}: ${link.health.error || 'Unknown error'})` 
+            : `Healthy (${link.health.statusCode})`;
+    
         return `<div class="link-item">
             <div class="link-header">
                 <div class="link-title">
-                    <h4>
-                        <a href="${link.url}" target="_blank">${link.name}</a>
-                        ${healthIndicator}
-                    </h4>
+                    <h4><a href="${link.url}" target="_blank">${link.name}</a></h4>
                 </div>
                 <div class="link-actions">
+                    <button class="health-btn" title="${healthTitle} ${link.lastChecked ? ` as of ${new Date(link.lastChecked).toLocaleDateString()}` : ''}">
+                        <i class="fas ${healthIcon} ${healthColor}"></i>
+                    </button>
                     <button class="edit-btn" data-id="${link.id}">
-                        <i class="fas fa-pencil-alt"></i>
+                        <i class="fas fa-pen-nib"></i>
                     </button>
                     <button class="delete-btn" data-id="${link.id}">
                         <i class="fas fa-trash-alt"></i>
