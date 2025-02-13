@@ -69,4 +69,3 @@ def convert_backup(input_file: str = 'backup.json', output_file: str = 'output.j
 
 if __name__ == '__main__':
     convert_backup()
-

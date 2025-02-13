@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const contentArea = document.getElementById('contentArea');
     const breadcrumb = document.getElementById('breadcrumb');
     const searchInput = document.getElementById('searchInput');
+    const downloadLinksBtn = document.getElementById('downloadLinksBtn');
     
     let searchTimeout;
     let isSearching = false;
@@ -15,6 +16,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load initial categories and links
     fetchData();
     setupCategoryAutocomplete();
+
+    downloadLinksBtn.addEventListener('click', async () => {
+        try {
+            const response = await fetch('/api/links');
+            if (!response.ok) {
+                throw new Error('Failed to fetch links');
+            }
+            const links = await response.json();
+            const blob = new Blob([JSON.stringify(links, null, 2)], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `linksnapper-export-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading links:', error);
+            alert('Failed to download links');
+        }
+    });
 
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase().trim();

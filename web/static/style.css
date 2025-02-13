@@ -503,7 +503,6 @@ h3::after {
   }
 
   .header-actions {
-    flex-direction: column;
     width: 100%;
   }
 
@@ -585,6 +584,10 @@ h3::after {
   .link-title {
     padding-right: 90px; /* Increase space for buttons */
   }
+
+  .header-buttons {
+    margin-top: 1rem;
+  }
 }
 
 .header-title {
@@ -596,4 +599,38 @@ h3::after {
 .header-logo {
   width: 90px;
   height: 90px;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.action-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(91, 155, 213, 0.3);
+  transition: all 0.2s ease-in-out;
+}
+
+.action-button i {
+  font-size: 0.75rem;
+}
+
+.action-button:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.05);
 }

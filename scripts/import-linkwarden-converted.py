@@ -7,7 +7,7 @@ from typing import Dict, List
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 
-LINKSNAPPER_URL = "http://localhost:8080/api/links"
+LINKSNAPPER_URL = "https://links.etherios.work/api/links"
 
 def add_link(link: Dict) -> bool:
     """Add a single link to Linksnapper."""
@@ -22,7 +22,7 @@ def add_link(link: Dict) -> bool:
         print(f"Error adding {link['name']}: {str(e)}")
         return False
 
-def import_links(input_file: str = 'output.json', max_workers: int = 5):
+def import_links(input_file: str = 'final.json', max_workers: int = 5):
     """Import links from file into Linksnapper."""
     # Read the converted links
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -32,7 +32,7 @@ def import_links(input_file: str = 'output.json', max_workers: int = 5):
     
     # Verify Linksnapper is accessible
     try:
-        health_check = requests.get("http://localhost:8080/api/health")
+        health_check = requests.get("https://links.etherios.work/api/health")
         if health_check.status_code != 200:
             print("Error: Linksnapper is not responding")
             return
