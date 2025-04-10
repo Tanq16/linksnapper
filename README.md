@@ -3,8 +3,7 @@
 <h1 align="center">LinkSnapper</h1><br>
 
 <p align="center">
-<a href="https://github.com/tanq16/linksnapper/actions/workflows/release.yml"><img src="https://github.com/tanq16/linksnapper/actions/workflows/release.yml/badge.svg" alt="Release Build"></a>&nbsp;<a href="https://goreportcard.com/report/github.com/tanq16/linksnapper"><img src="https://goreportcard.com/badge/github.com/tanq16/linksnapper" alt="Go Report Card"></a><br>
-<a href="https://github.com/Tanq16/linksnapper/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/tanq16/linksnapper"></a>&nbsp;<a href="https://hub.docker.com/r/tanq16/linksnapper"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/tanq16/linksnapper"></a>
+<a href="https://github.com/tanq16/linksnapper/actions/workflows/release.yml"><img src="https://github.com/tanq16/linksnapper/actions/workflows/release.yml/badge.svg" alt="Release Build"></a>&nbsp;<a href="https://github.com/Tanq16/linksnapper/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/tanq16/linksnapper"></a>&nbsp;<a href="https://hub.docker.com/r/tanq16/linksnapper"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/tanq16/linksnapper"></a>
 </p>
 </p>
 
