@@ -22,17 +22,17 @@
 [data-theme="dark"] {
   --text: #ffffff;
   --text-secondary: #bbbbbb;
-  --background: #121212;
+  --background: #000000;
   --surface: #1e1e1e;
-  --border: #333333;
+  --border: #222222;
   --shadow: rgba(0, 0, 0, 0.3);
   --primary: #ffffff;
   --primary-hover: #dddddd;
   --button-color: #a8a8a8;
-  --button-hover: #cfcfcf;
-  --card-bg: #1e1e1e;
-  --input-bg: #2a2a2a;
-  --hover-bg: #282828;
+  --button-hover: #d8d8d8;
+  --card-bg: #111111;
+  --input-bg: #1e1e1e;
+  --hover-bg: #222222;
   --active-bg: #333333;
 }
 
