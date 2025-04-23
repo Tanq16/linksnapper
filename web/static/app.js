@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentPathStr += (currentPathStr ? '/' : '') + segment;
             items.push(`<a href="#" data-path="${currentPathStr}">${segment}</a>`);
         });
-        breadcrumb.innerHTML = items.join(' > ');
+        breadcrumb.innerHTML = items.join(' • ');
         breadcrumb.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -461,6 +461,59 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    const headerActions = document.querySelector('.header-actions');
+    const downloadBtn = document.getElementById('downloadLinksBtn');
+    
+    if (headerActions && downloadBtn) {
+        const themeToggle = document.createElement('button');
+        themeToggle.id = 'themeToggleBtn';
+        themeToggle.className = 'theme-toggle';
+        themeToggle.title = 'Toggle dark/light mode';
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        
+        // Insert after download button
+        downloadBtn.after(themeToggle);
+        
+        // Set initial theme based on system preference or stored preference
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const storedTheme = localStorage.getItem('theme');
+        
+        if (storedTheme === 'dark' || (!storedTheme && prefersDarkMode)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+    }
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.getElementById('themeToggleBtn').innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    document.getElementById('themeToggleBtn').innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            }
+        });
 });
 
 if ('serviceWorker' in navigator) {
