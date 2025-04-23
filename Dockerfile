@@ -9,7 +9,7 @@ RUN go build -o linksnapper ./cmd
 
 # -----------------------
 
-FROM scratch
+FROM alpine:latest
 
 WORKDIR /app
 
