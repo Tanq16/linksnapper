@@ -7,8 +7,9 @@ COPY . .
 # Build the application
 RUN go build -o linksnapper ./cmd
 
-# Use a minimal alpine image for running
-FROM alpine:latest
+# -----------------------
+
+FROM scratch
 
 WORKDIR /app
 

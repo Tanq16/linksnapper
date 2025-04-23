@@ -20,7 +20,7 @@
 
 # Why Create This?
 
-There are numerous bookmark managers available, and they're great. My personal favorites are Hoarder and Linkwarden. But I wanted an even simpler solution that I could integrate my AI-Context project with, mainly to get text-based backups of my links and repositories. I also wanted a significantly simpler format of links to create a shareable repository from my bookmarks. LinkSnapper was created to be that lightweight, no-nonsense bookmark manager that just works. (*Integration of AI-Context is a WIP*)
+There are numerous bookmark managers available, and they're great. My personal favorites are Hoarder and Linkwarden. I also wanted a significantly simpler format of links to create a shareable repository from my bookmarks. LinkSnapper was created to be that lightweight, no-nonsense bookmark manager that just works.
 
 # Features
 
