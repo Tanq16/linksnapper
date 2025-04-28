@@ -218,6 +218,12 @@ input:focus, textarea:focus {
   border: 1px solid var(--border);
 }
 
+@media (prefers-color-scheme: dark) {
+  .breadcrumb {
+    border: none;
+  }
+}
+
 .breadcrumb a {
   color: var(--primary);
   text-decoration: none;
@@ -244,6 +250,12 @@ input:focus, textarea:focus {
   box-shadow: 0 2px 4px var(--shadow);
   border: 1px solid var(--border);
   transition: var(--transition);
+}
+
+@media (prefers-color-scheme: dark) {
+  .category-item {
+    border: none;
+  }
 }
 
 .category-item:hover {
@@ -277,6 +289,12 @@ input:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .link-item {
+    border: none;
+  }
 }
 
 .link-item:hover {
