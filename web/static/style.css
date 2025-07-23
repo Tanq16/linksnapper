@@ -1,25 +1,4 @@
-/* Variables - Light Mode */
 :root {
-  --text: #000000;
-  --text-secondary: #555555;
-  --background: #ffffff;
-  --surface: #f8f8f8;
-  --border: #e0e0e0;
-  --shadow: rgba(0, 0, 0, 0.08);
-  --primary: #000000;
-  --primary-hover: #333333;
-  --button-color: #505050;
-  --button-hover: #333333;
-  --card-bg: #ffffff;
-  --input-bg: #ffffff;
-  --hover-bg: #f2f2f2;
-  --active-bg: #e8e8e8;
-  --border-radius: 8px;
-  --transition: all 0.2s ease;
-}
-
-/* Dark Mode */
-[data-theme="dark"] {
   --text: #ffffff;
   --text-secondary: #bbbbbb;
   --background: #000000;
@@ -34,6 +13,8 @@
   --input-bg: #1e1e1e;
   --hover-bg: #222222;
   --active-bg: #333333;
+  --border-radius: 8px;
+  --transition: all 0.2s ease;
 }
 
 /* Base Styles */
@@ -125,7 +106,7 @@ html, body {
 }
 
 /* Buttons */
-.add-button, .action-button, .theme-toggle {
+.add-button, .action-button {
   width: 36px;
   height: 36px;
   display: flex;
@@ -140,7 +121,7 @@ html, body {
   transition: var(--transition);
 }
 
-.add-button:hover, .action-button:hover, .theme-toggle:hover {
+.add-button:hover, .action-button:hover {
   background-color: var(--hover-bg);
   color: var(--button-hover);
 }
