@@ -11,16 +11,15 @@
 
 ---
 
-- [Why Create This](#why-create-this)
+- [Motivation](#motivation)
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Tech Stack](#technology-stack)
 
-# Why Create This?
+# Motivation
 
-There are numerous bookmark managers available, and they're great. My personal favorites are Hoarder and Linkwarden. I also wanted a significantly simpler format of links to create a shareable repository from my bookmarks. LinkSnapper was created to be that lightweight, no-nonsense bookmark manager that just works.
+There are numerous bookmark managers available, and they're great. My personal favorites are Karakeep and Linkwarden. I also wanted a significantly simpler format of links to create a shareable repository from my bookmarks. LinkSnapper was created to be that lightweight, no-nonsense bookmark manager that just works.
 
 # Features
 
@@ -28,17 +27,16 @@ There are numerous bookmark managers available, and they're great. My personal f
 
 - Simple bookmark management with essential details (URL, name, description, and categories)
 - Multi-level path-based category support, with fuzzy match for new links
-- UUID-based link identification in the backend
+- Fuzzy word search across all links, descriptions, and descriptions to find what's needed
 - REST API for bookmark management
-- Intuitive search and navigation for links
-- Clean and responsive web interface with light and dark mode support
+- Intuitive navigation via breadcrumbs, folders, and links
+- Clean and responsive web interface with Catppuccin Mocha theme powered by Tailwind.CSS
 - Flat file storage system (`data/links.json`)
 
 ### Organization
 
 1. Hierarchical Category System
-    - Create unlimited nested categories
-    - Organize links in a tree-like structure
+    - Create unlimited nested categories in a tree-like structure
     - Easy navigation with breadcrumb trails
 2. Smart (fuzzy) Category Suggestions
     - Auto-suggests existing categories while adding new links
@@ -49,23 +47,16 @@ There are numerous bookmark managers available, and they're great. My personal f
 
 # Screenshots
 
-| | Desktop View | Mobile View |
-| --- | --- | --- |
-| Light | <img src="/assets/dlight.png" alt="Light" /> | <img src="/assets/mlight.png" alt="Mobile Light" /> |
-| Dark | <img src="/assets/ddark.png" alt="Dark" /> | <img src="/assets/mdark.png" alt="Mobile Dark" /> |
+| Desktop View | Mobile View |
+| --- | --- |
+| <img src="/assets/d.png" alt="Desktop" /> | <img src="/assets/m.png" alt="Mobile" /> |
 
 > [!TIP]
 > The interface automatically adapts to system preferences for themes. The views are optimized for both desktop and mobile use.
 
 # Installation
 
-### Go Install
-
-```bash
-go install github.com/tanq16/linksnapper/cmd@latest
-```
-
-### Docker Installation
+### Docker Installation (Recommended)
 
 ```bash
 docker pull tanq16/linksnapper:main
@@ -93,7 +84,9 @@ services:
       - /home/user/linksnapper:/app/data # CHANGE DIR
 ```
 
-### Building from Source
+### Binary & Building from Source
+
+You can download the required binary for your system from the project releases. If you want to build yourself, do the following:
 
 ```bash
 git clone https://github.com/tanq16/linksnapper.git && \
@@ -147,10 +140,3 @@ curl -X PUT http://localhost:8080/api/links/{id} \
     "path": ["New", "Category", "Path"]
 }'
 ```
-
-# Technology Stack
-
-- Build using Go for the backend
-- Flat JSON file for storage
-- Vanilla JavaScript, HTML, and CSS for the frontend
-- REST API and Web UI for interaction

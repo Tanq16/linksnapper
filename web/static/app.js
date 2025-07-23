@@ -57,34 +57,30 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderLinkItem(link) {
         const isUnhealthy = link.health?.status === 'unhealthy';
         const healthIcon = isUnhealthy ? 'fa-exclamation-triangle' : 'fa-check-circle';
-        const healthColorClass = isUnhealthy ? 'text-yellow' : 'text-green';
-        const healthTitle = `${isUnhealthy ? 'Unhealthy' : 'Healthy'} (Status: ${link.health.statusCode || 'N/A'})`;
 
-        return `<div class="group bg-surface0 rounded-lg transition-all duration-200 hover:bg-surface1 hover:shadow-xl relative">
-            <a href="${link.url}" target="_blank" class="block p-5">
-                <div class="flex items-start justify-between">
-                    <p class="font-semibold text-text break-words pr-12">${link.name}</p>
-                    <div title="${healthTitle}" class="flex-shrink-0 ml-2">
-                        <i class="fas ${healthIcon} ${healthColorClass}"></i>
-                    </div>
+        return `<div class="group bg-base rounded-lg p-5 transition-all duration-200 hover:bg-surface0 hover:shadow-xl relative">
+            <div class="absolute top-5 right-5 flex items-center gap-2">
+                <button title="Edit" class="edit-btn text-subtext1 hover:text-blue transition-colors" data-id="${link.id}">
+                    <i class="fas fa-pen text-sm"></i>
+                </button>
+                <button title="Delete" class="delete-btn text-subtext1 hover:text-red transition-colors" data-id="${link.id}">
+                    <i class="fas fa-trash text-sm"></i>
+                </button>
+            </div>
+            <a href="${link.url}" target="_blank" class="block pr-12">
+                <div class="flex items-start gap-3">
+                    <i class="fas ${healthIcon} text-subtext1 mt-1 flex-shrink-0"></i>
+                    <p class="font-semibold text-text break-words">${link.name}</p>
                 </div>
                 ${link.description ? `<p class="text-sm text-subtext0 mt-2 break-words">${link.description}</p>` : ''}
             </a>
-            <div class="absolute bottom-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <button title="Edit" class="edit-btn w-8 h-8 flex items-center justify-center bg-overlay0 rounded-full text-subtext1 hover:bg-blue hover:text-crust transition-colors" data-id="${link.id}">
-                    <i class="fas fa-pen-nib text-xs"></i>
-                </button>
-                <button title="Delete" class="delete-btn w-8 h-8 flex items-center justify-center bg-overlay0 rounded-full text-subtext1 hover:bg-red hover:text-crust transition-colors" data-id="${link.id}">
-                    <i class="fas fa-trash-alt text-xs"></i>
-                </button>
-            </div>
         </div>`;
     }
     
     function renderSearchResults(results, searchTerm) {
-        let html = `<h2 class="text-base font-semibold text-subtext1 mb-4">Search Results for "${searchTerm}"</h2>`;
+        let html = `<h2 class="text-xl font-bold text-lavender mb-6 text-center tracking-wider uppercase">Search Results for "${searchTerm}"</h2>`;
         if (results.length === 0) {
-            html += '<p class="text-subtext0">No matches found.</p>';
+            html += '<p class="text-subtext0 text-center">No matches found.</p>';
         } else {
             html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">';
             results.forEach(link => { html += renderLinkItem(link); });
@@ -174,13 +170,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderBreadcrumb() {
         const homeIcon = `<a href="#" class="hover:text-text" data-path=""><i class="fas fa-home"></i></a>`;
-        const separator = `<i class="fas fa-chevron-right text-xs text-overlay0"></i>`;
+        const separator = `<i class="fas fa-chevron-right text-xs text-overlay1"></i>`;
         const items = currentPath.map((segment, index) => {
             const path = currentPath.slice(0, index + 1).join('/');
             return `<a href="#" class="hover:text-text" data-path="${path}">${segment}</a>`;
         });
     
-        breadcrumb.innerHTML = [homeIcon, ...items].join(` <span class="px-1">${separator}</span> `);
+        breadcrumb.innerHTML = [homeIcon, ...items].join(` <span class="px-2">${separator}</span> `);
         
         breadcrumb.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -199,10 +195,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (subCategories.length > 0) {
             html += `<div class="mb-12">
-                <h2 class="text-base font-semibold text-subtext1 mb-4">Categories</h2>
+                <h2 class="text-xl font-bold text-lavender mb-6 text-center tracking-wider uppercase">Categories</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">`;
             subCategories.forEach(category => {
-                html += `<a href="#" class="category-link flex items-center gap-3 bg-surface0 p-4 rounded-lg hover:bg-surface1 transition-colors" data-category="${category}">
+                html += `<a href="#" class="category-link flex items-center gap-3 bg-base p-4 rounded-lg hover:bg-surface0 transition-colors" data-category="${category}">
                     <i class="fas fa-folder text-blue"></i>
                     <span class="font-medium text-text">${category}</span>
                 </a>`;
@@ -212,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (currentLevelLinks.length > 0) {
             html += `<div>
-                <h2 class="text-base font-semibold text-subtext1 mb-4">Links</h2>
+                <h2 class="text-xl font-bold text-lavender mb-6 text-center tracking-wider uppercase">Links</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
             currentLevelLinks.forEach(link => { html += renderLinkItem(link); });
             html += `</div></div>`;
