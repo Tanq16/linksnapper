@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const healthIcon = isUnhealthy ? 'fa-exclamation-triangle' : 'fa-check-circle';
 
         return `<div class="group bg-base rounded-lg p-5 transition-all duration-200 hover:bg-surface0 hover:shadow-xl relative">
-            <div class="absolute top-5 right-5 flex items-center gap-2">
+            <div class="absolute top-5 right-5 flex items-center gap-3">
                 <button title="Edit" class="edit-btn text-subtext1 hover:text-blue transition-colors" data-id="${link.id}">
                     <i class="fas fa-pen text-sm"></i>
                 </button>
