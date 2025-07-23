@@ -51,9 +51,6 @@ There are numerous bookmark managers available, and they're great. My personal f
 | --- | --- |
 | <img src="/assets/d.png" alt="Desktop" /> | <img src="/assets/m.png" alt="Mobile" /> |
 
-> [!TIP]
-> The interface automatically adapts to system preferences for themes. The views are optimized for both desktop and mobile use.
-
 # Installation
 
 ### Docker Installation (Recommended)
