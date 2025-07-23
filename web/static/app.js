@@ -66,54 +66,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function renderLinkItem(link) {
-        const healthIcon = link.health?.status === 'unhealthy' ? 'fa-exclamation-circle' : 'fa-check-circle';
-        const healthColor = link.health?.status === 'unhealthy' ? 'warning-icon' : 'success-icon';
-        const healthTitle = link.health?.status === 'unhealthy' 
-            ? `Unhealthy (${link.health.statusCode || 'Error'}: ${link.health.error || 'Unknown error'})` 
-            : `Healthy (${link.health.statusCode})`;
+        const isUnhealthy = link.health?.status === 'unhealthy';
+        const healthIcon = isUnhealthy ? 'fa-exclamation-circle' : 'fa-check-circle';
+        const healthColorClass = isUnhealthy ? 'text-yellow-500' : 'text-green-500';
+        const healthTitle = isUnhealthy ? `Unhealthy (${link.health.statusCode || 'Error'})` : `Healthy (${link.health.statusCode})`;
     
-        return `<div class="link-item">
-            <div class="link-header">
-                <div class="link-title">
-                    <h4><a href="${link.url}" target="_blank">${link.name}</a></h4>
+        return `<div class="bg-zinc-950 p-4 rounded-lg border border-zinc-800 shadow-md transition-all hover:bg-zinc-800 hover:shadow-lg flex flex-col gap-2">
+            <div class="relative flex justify-between items-start w-full">
+                <div class="flex-1 min-w-0 pr-24">
+                    <h4 class="font-medium leading-tight">
+                        <a href="${link.url}" target="_blank" class="text-white break-words hover:text-gray-200">${link.name}</a>
+                    </h4>
                 </div>
-                <div class="link-actions">
-                    <button class="health-btn" title="${healthTitle} ${link.lastChecked ? ` as of ${new Date(link.lastChecked).toLocaleDateString()}` : ''}">
-                        <i class="fas ${healthIcon} ${healthColor}"></i>
+                <div class="absolute right-0 top-0 flex items-center gap-1">
+                    <button class="health-btn bg-transparent border-none cursor-pointer p-1 rounded" title="${healthTitle} ${link.lastChecked ? `as of ${new Date(link.lastChecked).toLocaleDateString()}` : ''}">
+                        <i class="fas ${healthIcon} ${healthColorClass}"></i>
                     </button>
-                    <button class="edit-btn" data-id="${link.id}">
+                    <button class="edit-btn bg-transparent border-none cursor-pointer p-1 rounded transition-colors text-gray-400 hover:text-gray-200" data-id="${link.id}">
                         <i class="fas fa-pen-nib"></i>
                     </button>
-                    <button class="delete-btn" data-id="${link.id}">
+                    <button class="delete-btn bg-transparent border-none cursor-pointer p-1 rounded transition-colors text-gray-400 hover:text-red-500" data-id="${link.id}">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
             </div>
-            ${link.description ? `<p>${link.description}</p>` : ''}
+            ${link.description ? `<p class="text-gray-300 text-sm leading-tight mt-1 break-words">${link.description}</p>` : ''}
         </div>`;
-    }
-    
-    function getHealthIndicator(link) {
-        if (!link.health || link.health.status === 'unknown') {
-            return '';
-        }
-        const tooltipText = link.health.status === 'unhealthy' 
-            ? `Unhealthy (${link.health.statusCode || 'Error'}: ${link.health.error || 'Unknown error'})`
-            : `Healthy (${link.health.statusCode})`;
-        const iconClass = link.health.status === 'unhealthy' 
-            ? 'fa-exclamation-triangle warning-icon' 
-            : 'fa-check-circle success-icon';
-        return `<span class="health-indicator" title="${tooltipText} ${link.lastChecked ? ` as of ${new Date(link.lastChecked).toLocaleDateString()}` : ''}">
-            <i class="fas ${iconClass}"></i>
-        </span>`;
     }
 
     function renderSearchResults(results, searchTerm) {
-        let html = `<h3>Search Results for "${searchTerm}"</h3>`;
+        let html = `<h3 class="text-lg font-medium text-center my-6 pb-2 border-b border-zinc-800">Search Results for "${searchTerm}"</h3>`;
         if (results.length === 0) {
             html += '<p>No matches found</p>';
         } else {
-            html += '<div class="links-list">';
+            html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">';
             results.forEach(link => {
                 html += renderLinkItem(link);
             });
@@ -234,13 +220,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderBreadcrumb() {
-        const items = [`<a href="#" data-path="">Home</a>`];
-        let currentPathStr = '';
-        currentPath.forEach((segment, index) => {
-            currentPathStr += (currentPathStr ? '/' : '') + segment;
-            items.push(`<a href="#" data-path="${currentPathStr}">${segment}</a>`);
+        const homeItem = `<a href="#" class="text-white hover:bg-zinc-800 py-1 px-2 rounded" data-path="">Home</a>`;
+        const breadcrumbItems = currentPath.map((segment, index) => {
+            const path = currentPath.slice(0, index + 1).join('/');
+            return `<a href="#" class="text-white hover:bg-zinc-800 py-1 px-2 rounded" data-path="${path}">${segment}</a>`;
         });
-        breadcrumb.innerHTML = items.join(' • ');
+    
+        const separator = `<span class="text-gray-500">/</span>`;
+        breadcrumb.innerHTML = [homeItem, ...breadcrumbItems].join(separator);
+        
         breadcrumb.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -259,21 +247,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Render subcategories
         if (subCategories.length > 0) {
-            html += '<h3>Categories</h3>';
-            html += '<div class="categories-list">';
-            html += '<div class="categories-grid">';
+            html += '<h3 class="text-lg font-medium text-center my-6 pb-2 border-b border-zinc-800">Categories</h3>';
+            html += '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-6">';
             subCategories.forEach(category => {
-                html += `<div class="category-item">
-                    <a href="#" class="category-link" data-category="${category}">${category}</a>
+                html += `<div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800 shadow-md transition-all hover:bg-zinc-800 hover:shadow-lg">
+                    <a href="#" class="category-link text-white font-medium block" data-category="${category}">${category}</a>
                 </div>`;
             });
-            html += '</div></div>';
+            html += '</div>';
         }
 
         // Render links in current category
         if (currentLevelLinks.length > 0) {
-            html += '<h3>Links</h3>';
-            html += '<div class="links-list">';
+            html += '<h3 class="text-lg font-medium text-center my-6 pb-2 border-b border-zinc-800">Links</h3>';
+            html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">';
             currentLevelLinks.forEach(link => {
                 html += renderLinkItem(link);
             });
@@ -295,39 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Add click handlers for delete buttons
-        contentArea.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const id = e.target.closest('.delete-btn').dataset.id;
-                const linkElement = e.target.closest('.link-item');
-                const linkName = linkElement.querySelector('h4 a').textContent;
-                if (confirm(`Are you sure you want to delete "${linkName}"?`)) {
-                    try {
-                        const response = await fetch(`/api/links/${id}`, {
-                            method: 'DELETE'
-                        });
-                        if (!response.ok) {
-                            throw new Error('Failed to delete link');
-                        }
-                        fetchData();
-                    } catch (error) {
-                        console.error('Error deleting link:', error);
-                        alert('Failed to delete link');
-                    }
-                }
-            });
-        });
-
-        // Add click handlers for edit buttons
-        contentArea.querySelectorAll('.edit-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const id = btn.dataset.id;
-                const link = currentLinks.find(l => l.id === id);
-                if (link) {
-                    showEditForm(link);
-                }
-            });
-        });
+        attachLinkActionHandlers();
     }
 
     function filterLinksByPath(path) {
@@ -389,9 +344,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupCategoryAutocomplete() {
         const categoryInput = document.getElementById('category');
         const suggestionsDiv = document.createElement('div');
-        suggestionsDiv.className = 'category-suggestions';
+        suggestionsDiv.className = 'absolute top-full left-0 right-0 bg-zinc-950 border border-zinc-800 rounded-lg mt-0.5 max-h-52 overflow-y-auto z-50 shadow-lg';
         suggestionsDiv.style.display = 'none';
         categoryInput.parentNode.appendChild(suggestionsDiv);
+    
         categoryInput.addEventListener('input', () => {
             const value = categoryInput.value.toLowerCase();
             const paths = getAllUniquePaths();
@@ -400,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
             );
             if (matches.length > 0 && value) {
                 suggestionsDiv.innerHTML = matches
-                    .map(path => `<div class="suggestion-item">${path}</div>`)
+                    .map(path => `<div class="suggestion-item px-3 py-2.5 cursor-pointer transition-colors text-white hover:bg-zinc-800">${path}</div>`)
                     .join('');
                 suggestionsDiv.style.display = 'block';
             } else {
@@ -410,8 +366,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // Handle clicking on a suggestion
         suggestionsDiv.addEventListener('click', (e) => {
-            if (e.target.classList.contains('suggestion-item')) {
-                categoryInput.value = e.target.textContent;
+            const suggestion = e.target.closest('.suggestion-item');
+            if (suggestion) {
+                categoryInput.value = suggestion.textContent;
                 suggestionsDiv.style.display = 'none';
             }
         });
@@ -425,28 +382,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // Handle keyboard navigation
         categoryInput.addEventListener('keydown', (e) => {
-            const items = suggestionsDiv.getElementsByClassName('suggestion-item');
+            const items = Array.from(suggestionsDiv.querySelectorAll('.suggestion-item'));
+            if (suggestionsDiv.style.display === 'none') {
+                if (e.key === 'ArrowDown') categoryInput.dispatchEvent(new Event('input'));
+                return;
+            }
+
             const activeItem = suggestionsDiv.querySelector('.suggestion-item.active');
+            let currentIndex = items.indexOf(activeItem);
+    
             switch(e.key) {
                 case 'ArrowDown':
                     e.preventDefault();
-                    if (suggestionsDiv.style.display === 'none') {
-                        categoryInput.dispatchEvent(new Event('input'));
-                        return;
-                    }
-                    if (!activeItem && items.length > 0) {
-                        items[0].classList.add('active');
-                    } else if (activeItem && activeItem.nextElementSibling) {
-                        activeItem.classList.remove('active');
-                        activeItem.nextElementSibling.classList.add('active');
-                    }
+                    currentIndex = activeItem ? (currentIndex + 1) % items.length : 0;
                     break;
                 case 'ArrowUp':
                     e.preventDefault();
-                    if (activeItem && activeItem.previousElementSibling) {
-                        activeItem.classList.remove('active');
-                        activeItem.previousElementSibling.classList.add('active');
-                    }
+                    currentIndex = activeItem ? (currentIndex - 1 + items.length) % items.length : items.length - 1;
                     break;
                 case 'Enter':
                     if (activeItem) {
@@ -454,10 +406,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         categoryInput.value = activeItem.textContent;
                         suggestionsDiv.style.display = 'none';
                     }
-                    break;
+                    return;
                 case 'Escape':
                     suggestionsDiv.style.display = 'none';
-                    break;
+                    return;
+                default:
+                    return;
+            }
+    
+            if (activeItem) activeItem.classList.remove('active', 'bg-zinc-700');
+            if (items[currentIndex]) {
+                items[currentIndex].classList.add('active', 'bg-zinc-700');
+                items[currentIndex].scrollIntoView({ block: 'nearest' });
             }
         });
     }

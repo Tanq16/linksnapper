@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,57 +12,74 @@
     <link rel="icon" type="image/png" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/icon-192.png">
     <title>LinkSnapper</title>
-    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+        tailwind.config = {
+          darkMode: 'class',
+          theme: {
+            extend: {
+              colors: {
+                zinc: {
+                  700: '#333333', // active-bg
+                  800: '#222222', // border, hover-bg
+                  900: '#1e1e1e', // surface, input-bg
+                  950: '#111111'  // card-bg
+                }
+              }
+            }
+          }
+        }
+    </script>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <div class="header-title">
-                <img src="/icon-512.png" alt="LinkSnapper Logo" class="header-logo">
-                <h1>LinkSnapper</h1>
+<body class="bg-black text-white font-sans">
+    <div class="max-w-6xl mx-auto p-4">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6 pb-4 border-b border-zinc-800">
+            <div class="flex items-center gap-3">
+                <img src="/icon-512.png" alt="LinkSnapper Logo" class="w-24 h-24">
+                <h1 class="text-2xl font-medium">LinkSnapper</h1>
             </div>
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Search links..." class="search-input">
-                <i class="fas fa-search search-icon"></i>
+            <div class="relative w-full sm:w-80">
+                <input type="text" id="searchInput" placeholder="Search links..." class="w-full bg-zinc-900 border border-zinc-800 rounded-lg py-2 pl-9 pr-4 text-sm text-white focus:outline-none focus:border-white transition-colors">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
             </div>
-            <div class="header-actions">
-                <button id="addLinkBtn" class="add-button" title="Add New Link">
+            <div class="flex items-center gap-2">
+                <button id="addLinkBtn" class="w-9 h-9 flex items-center justify-center rounded-full bg-zinc-900 border border-zinc-800 text-gray-400 shadow-md transition-colors hover:bg-zinc-800 hover:text-gray-200" title="Add New Link">
                     <i class="fas fa-plus"></i>
                 </button>
-                <button id="downloadLinksBtn" class="action-button" title="Download Links">
+                <button id="downloadLinksBtn" class="w-9 h-9 flex items-center justify-center rounded-full bg-zinc-900 border border-zinc-800 text-gray-400 shadow-md transition-colors hover:bg-zinc-800 hover:text-gray-200" title="Download Links">
                     <i class="fas fa-download"></i>
                 </button>
             </div>
         </div>
         
-        <div id="addLinkForm" class="add-link-form" style="display: none;">
+        <div id="addLinkForm" class="bg-zinc-950 p-5 rounded-lg mb-6 shadow-lg border border-zinc-800" style="display: none;">
             <form id="linkForm">
-                <div class="form-group">
-                    <label for="url">URL:</label>
-                    <input type="url" id="url" name="url" required>
+                <div class="mb-4 relative">
+                    <label for="url" class="block mb-1 text-white font-medium text-sm">URL:</label>
+                    <input type="url" id="url" name="url" required class="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-white transition-colors">
                 </div>
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name">
+                <div class="mb-4 relative">
+                    <label for="name" class="block mb-1 text-white font-medium text-sm">Name:</label>
+                    <input type="text" id="name" name="name" class="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-white transition-colors">
                 </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description"></textarea>
+                <div class="mb-4 relative">
+                    <label for="description" class="block mb-1 text-white font-medium text-sm">Description:</label>
+                    <textarea id="description" name="description" class="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-white transition-colors"></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="category">Category (use / for nesting):</label>
-                    <input type="text" id="category" name="category" placeholder="e.g. Tech/Go or leave empty">
+                <div class="mb-4 relative">
+                    <label for="category" class="block mb-1 text-white font-medium text-sm">Category (use / for nesting):</label>
+                    <input type="text" id="category" name="category" placeholder="e.g. Tech/Go or leave empty" class="w-full p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-white transition-colors">
                 </div>
-                <div class="form-buttons">
-                    <button type="submit">Save</button>
-                    <button type="button" id="cancelBtn">Cancel</button>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button type="submit" class="w-full sm:w-auto flex-1 sm:max-w-xs py-2.5 px-5 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer font-medium text-white transition-colors hover:bg-zinc-800">Save</button>
+                    <button type="button" id="cancelBtn" class="w-full sm:w-auto flex-1 sm:max-w-xs py-2.5 px-5 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer font-medium text-white transition-colors hover:bg-zinc-800">Cancel</button>
                 </div>
             </form>
         </div>
 
         <div class="navigation">
-            <div id="breadcrumb" class="breadcrumb">
+            <div id="breadcrumb" class="bg-zinc-950 p-3 rounded-lg mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm border border-zinc-800">
                 </div>
         </div>
 
