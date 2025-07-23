@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderLinkItem(link) {
         const isUnhealthy = link.health?.status === 'unhealthy';
         const healthIcon = isUnhealthy ? 'fa-exclamation-triangle' : 'fa-check-circle';
-
         return `<div class="group bg-base rounded-lg p-5 transition-all duration-200 hover:bg-surface0 hover:shadow-xl relative">
             <div class="absolute top-5 right-5 flex items-center gap-3">
                 <button title="Edit" class="edit-btn text-subtext1 hover:text-blue transition-colors" data-id="${link.id}">
@@ -140,11 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
             path: document.getElementById('category').value.split('/').filter(p => p.trim() !== '')
         };
         if (formData.path.length === 0) formData.path = ['Uncategorized'];
-        
         const isEdit = this.dataset.mode === 'edit';
         const url = isEdit ? `/api/links/${this.dataset.editId}` : '/api/links';
         const method = isEdit ? 'PUT' : 'POST';
-        
         try {
             const response = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
             if (!response.ok) throw new Error(isEdit ? 'Failed to update link' : 'Failed to add link');
@@ -175,9 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const path = currentPath.slice(0, index + 1).join('/');
             return `<a href="#" class="hover:text-text" data-path="${path}">${segment}</a>`;
         });
-    
         breadcrumb.innerHTML = [homeIcon, ...items].join(` <span class="px-2">${separator}</span> `);
-        
         breadcrumb.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -192,7 +187,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentLevelLinks = filterLinksByPath(currentPath);
         const subCategories = getSubCategories(currentPath);
         let html = '';
-
         if (subCategories.length > 0) {
             html += `<div class="mb-12">
                 <h2 class="text-xl font-bold text-lavender mb-6 text-center tracking-wider uppercase">Categories</h2>
@@ -205,7 +199,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             html += `</div></div>`;
         }
-
         if (currentLevelLinks.length > 0) {
             html += `<div>
                 <h2 class="text-xl font-bold text-lavender mb-6 text-center tracking-wider uppercase">Links</h2>
@@ -213,12 +206,10 @@ document.addEventListener('DOMContentLoaded', function() {
             currentLevelLinks.forEach(link => { html += renderLinkItem(link); });
             html += `</div></div>`;
         }
-
         if (html === '') {
             html = '<p class="text-center text-subtext0">No content in this category.</p>';
         }
         contentArea.innerHTML = html;
-
         contentArea.querySelectorAll('.category-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -257,10 +248,6 @@ document.addEventListener('DOMContentLoaded', function() {
         downloadLinksBtn.classList.add('hidden');
     }
 
-    /**
-     * Correctly generates all unique full and partial category paths.
-     * For a link with path ["A", "B", "C"], it will add "A", "A/B", and "A/B/C" to the set.
-     */
     function getAllUniquePaths() {
         const paths = new Set();
         (currentLinks || []).forEach(link => {
@@ -279,7 +266,6 @@ document.addEventListener('DOMContentLoaded', function() {
         suggestionsDiv.className = 'absolute top-full left-0 right-0 bg-surface0 border border-surface1 rounded-md mt-1 max-h-60 overflow-y-auto z-50 shadow-lg';
         suggestionsDiv.style.display = 'none';
         categoryInput.parentNode.insertBefore(suggestionsDiv, categoryInput.nextSibling);
-
         categoryInput.addEventListener('input', () => {
             const value = categoryInput.value.toLowerCase();
             const paths = getAllUniquePaths();
@@ -292,7 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 suggestionsDiv.style.display = 'none';
             }
         });
-    
         suggestionsDiv.addEventListener('click', (e) => {
             const suggestion = e.target.closest('.suggestion-item');
             if (suggestion) {
@@ -300,7 +285,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 suggestionsDiv.style.display = 'none';
             }
         });
-    
         document.addEventListener('click', (e) => {
             if (!categoryInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
                 suggestionsDiv.style.display = 'none';
