@@ -40,6 +40,11 @@ func NewStore(dataDir string) (*Store, error) {
 func (s *Store) AddLink(link Link) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	for _, existingLink := range s.links {
+		if existingLink.URL == link.URL {
+			return fmt.Errorf("link already exists")
+		}
+	}
 	if link.ID == "" {
 		link.ID = uuid.New().String()
 	}

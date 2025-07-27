@@ -144,7 +144,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const method = isEdit ? 'PUT' : 'POST';
         try {
             const response = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
-            if (!response.ok) throw new Error(isEdit ? 'Failed to update link' : 'Failed to add link');
+            if (!response.ok) {
+                let errorMessage = isEdit ? 'Failed to update link' : 'Failed to add link';
+                if (response.status === 409) {
+                    errorMessage = await response.text();
+                }
+                throw new Error(errorMessage);
+            }
             cancelBtn.click();
             fetchData();
         } catch (error) {

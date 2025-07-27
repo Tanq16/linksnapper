@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/fs"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/rs/zerolog/log"
@@ -58,11 +59,23 @@ func (s *Server) handleLinks(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+		parsedURL, err := url.Parse(link.URL)
+		if err != nil {
+			http.Error(w, "Invalid URL format", http.StatusBadRequest)
+			return
+		}
+		parsedURL.RawQuery = "" // Remove GET parameters
+		parsedURL.Fragment = "" // Remove fragment (#)
+		link.URL = parsedURL.String()
 		if len(link.Path) == 0 {
 			link.Path = []string{"Uncategorized"}
 		}
 		if err := s.store.AddLink(link); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			if err.Error() == "link already exists" {
+				http.Error(w, err.Error(), http.StatusConflict)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
