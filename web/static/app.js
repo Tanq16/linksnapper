@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('hashchange', syncHashToPath);
 
-    // Initial sync
+
     setTimeout(syncHashToPath, 100);
 
 
@@ -322,14 +322,14 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// Ensure icons are created
+
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 });
 
-// Nojiko Bookmark rendering logic
+
 const createLinkHTML = (link) => `
     <a href="${link.url}" class="flex items-center text-ctp-subtext1 hover:text-ctp-rosewater transition-colors" target="_blank">
         <i data-lucide="${link.icon}" class="w-4 h-4 mr-3"></i>${link.name || 'Unnamed'}
@@ -378,7 +378,7 @@ const renderBookmarks = async () => {
 
 document.addEventListener('DOMContentLoaded', renderBookmarks);
 
-// Settings Modal Logic
+
 const initSettingsModal = () => {
     const modal = document.getElementById('settings-modal');
     const openBtn = document.getElementById('open-settings-btn');
@@ -452,7 +452,7 @@ const initSettingsModal = () => {
     cancelBtn?.addEventListener('click', closeModal);
     saveBtn?.addEventListener('click', saveConfig);
 
-    // Close on click outside
+
     modal?.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
     });
