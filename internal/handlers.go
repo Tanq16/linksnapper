@@ -34,6 +34,8 @@ func (s *Server) NewRouter() http.Handler {
 	mux.HandleFunc("/api/health", s.handleHealth)
 	mux.HandleFunc("/api/links", s.handleLinks)
 	mux.HandleFunc("/api/categories", s.handleCategories)
+	mux.HandleFunc("/api/bookmarks", s.handleBookmarksGet)
+	mux.HandleFunc("/api/config", s.handleConfigRaw)
 	mux.HandleFunc("/api/links/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodDelete:

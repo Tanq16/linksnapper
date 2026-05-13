@@ -14,8 +14,9 @@
     <title>LinkSnapper</title>
 
     <link href="/css/inter.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/all.min.css">
+
     <script src="/js/tailwindcss.js"></script>
+    <script src="/js/lucide.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -26,83 +27,102 @@
                 sans: ['Inter', 'sans-serif'],
               },
               colors: {
-                // Catppuccin Mocha Palette
-                rosewater: '#f5e0dc',
-                flamingo: '#f2cdcd',
-                pink: '#f5c2e7',
-                mauve: '#cba6f7',
-                red: '#f38ba8',
-                maroon: '#eba0ac',
-                peach: '#fab387',
-                yellow: '#f9e2af',
-                green: '#a6e3a1',
-                teal: '#94e2d5',
-                sky: '#89dceb',
-                sapphire: '#74c7ec',
-                blue: '#89b4fa',
-                lavender: '#b4befe',
-                text: '#cdd6f4',
-                subtext1: '#bac2de',
-                subtext0: '#a6adc8',
-                overlay2: '#9399b2',
-                overlay1: '#7f849c',
-                overlay0: '#6c7086',
-                surface2: '#585b70',
-                surface1: '#45475a',
-                surface0: '#313244',
-                base: '#1e1e2e',
-                mantle: '#181825',
-                crust: '#11111b'
+
+                'ctp-rosewater': '#f5e0dc', rosewater: '#f5e0dc',
+                'ctp-flamingo': '#f2cdcd', flamingo: '#f2cdcd',
+                'ctp-pink': '#f5c2e7', pink: '#f5c2e7',
+                'ctp-mauve': '#cba6f7', mauve: '#cba6f7',
+                'ctp-red': '#f38ba8', red: '#f38ba8',
+                'ctp-maroon': '#eba0ac', maroon: '#eba0ac',
+                'ctp-peach': '#fab387', peach: '#fab387',
+                'ctp-yellow': '#f9e2af', yellow: '#f9e2af',
+                'ctp-green': '#a6e3a1', green: '#a6e3a1',
+                'ctp-teal': '#94e2d5', teal: '#94e2d5',
+                'ctp-sky': '#89dceb', sky: '#89dceb',
+                'ctp-sapphire': '#74c7ec', sapphire: '#74c7ec',
+                'ctp-blue': '#89b4fa', blue: '#89b4fa',
+                'ctp-lavender': '#b4befe', lavender: '#b4befe',
+                'ctp-text': '#cdd6f4', text: '#cdd6f4',
+                'ctp-subtext1': '#bac2de', subtext1: '#bac2de',
+                'ctp-subtext0': '#a6adc8', subtext0: '#a6adc8',
+                'ctp-overlay2': '#9399b2', overlay2: '#9399b2',
+                'ctp-overlay1': '#7f849c', overlay1: '#7f849c',
+                'ctp-overlay0': '#6c7086', overlay0: '#6c7086',
+                'ctp-surface2': '#585b70', surface2: '#585b70',
+                'ctp-surface1': '#45475a', surface1: '#45475a',
+                'ctp-surface0': '#313244', surface0: '#313244',
+                'ctp-base': '#1e1e2e', base: '#1e1e2e',
+                'ctp-mantle': '#181825', mantle: '#181825',
+                'ctp-crust': '#11111b', crust: '#11111b'
+
               }
             }
           }
         }
     </script>
     <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #11111b; } /* crust */
-        ::-webkit-scrollbar-thumb { background: #313244; border-radius: 4px; } /* surface0 */
-        ::-webkit-scrollbar-thumb:hover { background: #45475a; } /* surface1 */
-    </style>
-</head>
-<body class="bg-mantle text-text font-sans antialiased">
-    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-        <!-- Header -->
-        <header class="space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:gap-6 mb-8">
-            <!-- Logo and Title h(idden on mobile) -->
-            <div class="hidden sm:flex items-center gap-4">
-                <img src="/icon-512.png" alt="LinkSnapper Logo" class="w-16 h-16">
-                <div>
-                    <div class="pb-1 border-b border-surface0">
-                        <h1 class="text-3xl font-bold tracking-tight text-text">LinkSnapper</h1>
-                    </div>
-                    <a href="https://github.com/Tanq16/linksnapper/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm text-subtext0 hover:text-mauve transition-colors mt-2">
-                        <i class="fas fa-book"></i>
-                        <span>Readme</span>
-                    </a>
-                </div>
-            </div>
+        :root {
+            --rosewater: #f5e0dc; --flamingo: #f2cdcd; --pink: #f5c2e7;
+            --mauve: #cba6f7; --red: #f38ba8; --maroon: #eba0ac;
+            --peach: #fab387; --yellow: #f9e2af; --green: #a6e3a1;
+            --teal: #94e2d5; --sky: #89dceb; --sapphire: #74c7ec;
+            --blue: #89b4fa; --lavender: #b4befe; --text: #cdd6f4;
+            --subtext1: #bac2de; --subtext0: #a6adc8; --overlay2: #9399b2;
+            --overlay1: #7f849c; --overlay0: #6c7086; --surface2: #585b70;
+            --surface1: #45475a; --surface0: #313244; --base: #1e1e2e;
+            --mantle: #181825; --crust: #11111b;
+        }
 
-            <!-- Search and Actions Wrapper -->
-            <div class="flex items-center gap-2 w-full sm:w-auto sm:flex-grow sm:max-w-md">
-                <!-- Search Bar -->
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #11111b; }
+        ::-webkit-scrollbar-thumb { background: #313244; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #45475a; }
+
+        summary { list-style: none; cursor: pointer; }
+        summary::-webkit-details-marker { display: none; }
+        .chevron-icon { transition: transform 0.2s ease-in-out; flex-shrink: 0; }
+        details[open] > summary > .chevron-icon { transform: rotate(90deg); }
+</style>
+</head>
+
+<body class="bg-mantle text-text font-sans antialiased min-h-screen">
+    <div class="relative min-h-screen flex">
+
+        <aside id="sidebar" class="bg-mantle w-72 p-6 flex-shrink-0 flex-col z-30 border-r border-surface0 lg:relative hidden lg:flex h-screen sticky top-0">
+            <div class="flex items-center justify-between flex-shrink-0 mb-8">
+                <h1 class="text-xl font-bold text-mauve flex items-center">
+                    <img src="/icon-512.png?v=2" alt="LinkSnapper Logo" class="w-8 h-8 mr-3">
+                    LinkSnapper
+                </h1>
+                <button id="open-settings-btn" class="text-subtext1 hover:text-rosewater">
+                    <i data-lucide="settings-2"></i>
+                </button>
+            </div>
+            <div id="bookmarks-container" class="overflow-y-auto flex-grow pr-2 space-y-4 text-sm scrollbar-thin"></div>
+        </aside>
+
+        <div class="flex-1 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 overflow-y-auto h-screen">
+
+        <header class="space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:gap-6 mb-8">
+
+            <div class="flex items-center gap-2 w-full justify-end">
+
                 <div class="relative flex-grow">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-subtext0"></i>
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-subtext0"></i>
                     <input type="text" id="searchInput" placeholder="Search..." class="w-full bg-crust border border-surface0 rounded-full py-2.5 pl-12 pr-4 text-text placeholder:text-subtext0 focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-mantle transition-all">
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="flex items-center gap-2">
                     <button id="addLinkBtn" title="Add New Link" class="flex-shrink-0 w-11 h-11 flex items-center justify-center bg-mauve text-crust rounded-full hover:brightness-110 transition-all focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-mantle">
-                        <i class="fas fa-plus"></i>
+                        <i data-lucide="plus" class="w-5 h-5"></i>
                     </button>
                     <button id="downloadLinksBtn" title="Download Links" class="flex-shrink-0 w-11 h-11 flex items-center justify-center bg-surface0 text-subtext1 rounded-full hover:bg-surface1 hover:text-text transition-colors">
-                        <i class="fas fa-download"></i>
+                        <i data-lucide="download" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
         </header>
-        
+
         <div id="addLinkForm" class="bg-base p-6 rounded-lg mb-8" style="display: none;">
             <form id="linkForm" class="space-y-4">
                 <div>
@@ -136,6 +156,34 @@
         <main id="contentArea">
         </main>
     </div>
+
+    <div id="settings-modal" class="fixed inset-0 bg-black/70 z-40 hidden items-center justify-center">
+        <div class="bg-crust p-6 rounded-lg w-full max-w-3xl h-[80vh] flex flex-col shadow-2xl">
+            <div class="flex justify-between items-center mb-4 flex-shrink-0">
+                <h2 class="text-xl font-bold text-mauve flex items-center">
+                    <i data-lucide="settings-2" class="mr-3"></i>Edit Configuration
+                </h2>
+                <button id="close-modal-btn" class="text-subtext1 hover:text-rosewater">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <textarea id="config-editor" class="w-full flex-grow bg-base text-text p-4 rounded-md font-mono text-sm resize-none border border-surface0 focus:outline-none focus:ring-2 focus:ring-mauve"></textarea>
+            <div id="save-status" class="text-sm h-5 mt-2 text-subtext1"></div>
+            <div class="flex justify-end space-x-4 mt-2 flex-shrink-0">
+                <button id="cancel-btn" class="px-5 py-2 bg-surface1 rounded-md hover:bg-surface2 transition-colors">Cancel</button>
+                <button id="save-btn" class="px-5 py-2 bg-blue text-base rounded-md hover:bg-sapphire transition-colors font-semibold flex items-center">
+                    <span id="save-btn-text">Save</span>
+                    <div id="save-spinner" class="w-4 h-4 border-2 border-base border-t-transparent rounded-full animate-spin ml-2 hidden"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="/app.js"></script>
+    <script>
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
 </body>
 </html>
