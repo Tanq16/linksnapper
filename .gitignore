@@ -17,6 +17,10 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# AI data
+AI-docs/
+.cursor/
+
 # Go workspace file
 go.work
 go.work.sum
