@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then(
+        navigator.serviceWorker.register('/static/sw.js').then(
             () => console.log('ServiceWorker registration successful'),
             (err) => console.log('ServiceWorker registration failed: ', err)
         );

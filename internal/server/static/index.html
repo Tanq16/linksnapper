@@ -8,15 +8,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="LinkSnapper">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/png" href="/icon-192.png">
-    <link rel="apple-touch-icon" href="/icon-192.png">
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="icon" type="image/x-icon" href="/static/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
     <title>LinkSnapper</title>
 
-    <link href="/css/inter.css" rel="stylesheet">
+    <link href="/static/css/inter.css" rel="stylesheet">
+    <link href="/static/css/jetbrains-mono.css" rel="stylesheet">
 
-    <script src="/js/tailwindcss.js"></script>
-    <script src="/js/lucide.min.js"></script>
+    <script src="/static/js/tailwindcss.js"></script>
+    <script src="/static/js/lucide.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -25,6 +27,7 @@
             extend: {
               fontFamily: {
                 sans: ['Inter', 'sans-serif'],
+                mono: ['JetBrains Mono', 'monospace'],
               },
               colors: {
 
@@ -91,7 +94,7 @@
         <aside id="sidebar" class="bg-mantle w-72 p-6 flex-shrink-0 flex-col z-30 border-r border-surface0 lg:relative hidden lg:flex h-screen sticky top-0">
             <div class="flex items-center justify-between flex-shrink-0 mb-8">
                 <h1 class="text-xl font-bold text-mauve flex items-center">
-                    <img src="/icon-512.png?v=2" alt="LinkSnapper Logo" class="w-8 h-8 mr-3">
+                    <img src="/static/icons/logo.png" alt="LinkSnapper Logo" class="w-8 h-8 mr-3">
                     LinkSnapper
                 </h1>
                 <button id="open-settings-btn" class="text-subtext1 hover:text-rosewater">
@@ -179,7 +182,7 @@
         </div>
     </div>
 
-    <script src="/app.js"></script>
+    <script src="/static/app.js"></script>
     <script>
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();

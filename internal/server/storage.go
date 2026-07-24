@@ -1,4 +1,4 @@
-package internal
+package server
 
 import (
 	"encoding/json"
@@ -10,18 +10,26 @@ import (
 	"github.com/google/uuid"
 )
 
-type Store struct {
+type Store interface {
+	GetLinks() []Link
+	AddLink(link Link) error
+	DeleteLink(id string) error
+	UpdateLink(id string, updated Link) error
+	GetCategories() *Category
+}
+
+type JSONStore struct {
 	links []Link
 	mu    sync.RWMutex
 	file  string
 }
 
-func NewStore(dataDir string) (*Store, error) {
+func NewStore(dataDir string) (Store, error) {
 	if err := os.MkdirAll(dataDir, 0755); err != nil {
 		return nil, err
 	}
 	file := filepath.Join(dataDir, "links.json")
-	store := &Store{
+	store := &JSONStore{
 		file:  file,
 		links: make([]Link, 0),
 	}
@@ -37,7 +45,7 @@ func NewStore(dataDir string) (*Store, error) {
 	return store, nil
 }
 
-func (s *Store) AddLink(link Link) error {
+func (s *JSONStore) AddLink(link Link) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	for _, existingLink := range s.links {
@@ -52,7 +60,7 @@ func (s *Store) AddLink(link Link) error {
 	return s.saveToFile()
 }
 
-func (s *Store) DeleteLink(id string) error {
+func (s *JSONStore) DeleteLink(id string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	for i, link := range s.links {
@@ -65,7 +73,7 @@ func (s *Store) DeleteLink(id string) error {
 	return nil
 }
 
-func (s *Store) UpdateLink(id string, updatedLink Link) error {
+func (s *JSONStore) UpdateLink(id string, updatedLink Link) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	for i, link := range s.links {
@@ -78,7 +86,7 @@ func (s *Store) UpdateLink(id string, updatedLink Link) error {
 	return fmt.Errorf("link not found")
 }
 
-func (s *Store) GetLinks() []Link {
+func (s *JSONStore) GetLinks() []Link {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	links := make([]Link, len(s.links))
@@ -86,7 +94,7 @@ func (s *Store) GetLinks() []Link {
 	return links
 }
 
-func (s *Store) GetCategories() *Category {
+func (s *JSONStore) GetCategories() *Category {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	root := NewCategory("root", []string{})
@@ -104,7 +112,7 @@ func (s *Store) GetCategories() *Category {
 	return root
 }
 
-func (s *Store) saveToFile() error {
+func (s *JSONStore) saveToFile() error {
 	data, err := json.MarshalIndent(s.links, "", "  ")
 	if err != nil {
 		return err

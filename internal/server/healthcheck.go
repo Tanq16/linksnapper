@@ -1,22 +1,21 @@
-package internal
+package server
 
 import (
+	"log"
 	"net/http"
 	"sync"
 	"time"
-
-	"github.com/rs/zerolog/log"
 )
 
 type HealthChecker struct {
-	store    *Store
+	store    Store
 	client   *http.Client
 	interval time.Duration
 	running  bool
 	mu       sync.Mutex
 }
 
-func NewHealthChecker(store *Store, interval time.Duration) *HealthChecker {
+func NewHealthChecker(store Store, interval time.Duration) *HealthChecker {
 	return &HealthChecker{
 		store: store,
 		client: &http.Client{
@@ -64,19 +63,17 @@ func (hc *HealthChecker) CheckAllLinks() {
 	var wg sync.WaitGroup
 	semaphore := make(chan struct{}, 10)
 	for i := range links {
-		wg.Add(1)
-		go func(link *Link) {
-			defer wg.Done()
+		wg.Go(func() {
 			semaphore <- struct{}{}
 			defer func() { <-semaphore }()
+			link := &links[i]
 			health := hc.CheckLink(link.URL)
 			link.Health = health
 			link.LastChecked = time.Now()
-			err := hc.store.UpdateLink(link.ID, *link)
-			if err != nil {
-				log.Error().Err(err).Str("url", link.URL).Msg("Failed to update link health status")
+			if err := hc.store.UpdateLink(link.ID, *link); err != nil {
+				log.Printf("ERROR Failed to update link health status for %s: %v", link.URL, err)
 			}
-		}(&links[i])
+		})
 	}
 	wg.Wait()
 }
@@ -97,7 +94,6 @@ func (hc *HealthChecker) CheckLink(url string) Health {
 		}
 	}
 	defer resp.Body.Close()
-	// Consider 2xx and 3xx status codes as healthy
 	if resp.StatusCode >= 200 && resp.StatusCode < 400 {
 		return Health{
 			Status:     "healthy",
