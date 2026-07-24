@@ -13,6 +13,7 @@ GOARCH ?= $(shell go env GOARCH)
 
 # Asset versions - update as needed
 LUCIDE_VERSION := 0.468.0
+INTER_VERSION := 5.2.5
 NERD_FONTS_WOFF2_REF := e992e56ad83e
 
 # Directories
@@ -20,6 +21,7 @@ STATIC_DIR := internal/server/static
 JS_DIR := $(STATIC_DIR)/js
 CSS_DIR := $(STATIC_DIR)/css
 FONTS_DIR := $(STATIC_DIR)/fonts
+INTER_CDN := https://cdn.jsdelivr.net/fontsource/fonts/inter@$(INTER_VERSION)
 JB_NF_BASE := https://raw.githubusercontent.com/Nick2bad4u/nerd-fonts-woff2/$(NERD_FONTS_WOFF2_REF)/fonts/woff2/JetBrainsMono/Ligatures
 
 # Console colors
@@ -45,13 +47,49 @@ assets: ## Download static assets (JS, CSS, fonts)
 	@mkdir -p $(JS_DIR) $(CSS_DIR) $(FONTS_DIR)
 	@curl -sL "https://cdn.tailwindcss.com" -o "$(JS_DIR)/tailwindcss.js"
 	@curl -sL "https://unpkg.com/lucide@$(LUCIDE_VERSION)/dist/umd/lucide.min.js" -o "$(JS_DIR)/lucide.min.js"
-	@curl -sL "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" -H "User-Agent: Mozilla/5.0" -o "$(CSS_DIR)/inter.css"
-	@grep -o "https://fonts.gstatic.com/[^)']*" "$(CSS_DIR)/inter.css" | sort -u | while read url; do \
-		filename=$$(basename "$$url" | sed 's/?.*//'); \
-		curl -sL "$$url" -o "$(FONTS_DIR)/$$filename"; \
+	@for weight in 400 500 600 700 800; do \
+		curl -sL "$(INTER_CDN)/latin-$$weight-normal.woff2" -o "$(FONTS_DIR)/inter-$$weight.woff2"; \
 	done
-	@sed -i.bak -E 's|https://fonts.gstatic.com/s/[^/]+/[^/]+/||g' "$(CSS_DIR)/inter.css" && rm -f "$(CSS_DIR)/inter.css.bak"
-	@sed -i.bak 's|src: url(|src: url(/static/fonts/|g' "$(CSS_DIR)/inter.css" && rm -f "$(CSS_DIR)/inter.css.bak"
+	@printf '%s\n' \
+		"@font-face {" \
+		"    font-family: 'Inter';" \
+		"    font-style: normal;" \
+		"    font-weight: 400;" \
+		"    font-display: swap;" \
+		"    src: url('/static/fonts/inter-400.woff2') format('woff2');" \
+		"}" \
+		"" \
+		"@font-face {" \
+		"    font-family: 'Inter';" \
+		"    font-style: normal;" \
+		"    font-weight: 500;" \
+		"    font-display: swap;" \
+		"    src: url('/static/fonts/inter-500.woff2') format('woff2');" \
+		"}" \
+		"" \
+		"@font-face {" \
+		"    font-family: 'Inter';" \
+		"    font-style: normal;" \
+		"    font-weight: 600;" \
+		"    font-display: swap;" \
+		"    src: url('/static/fonts/inter-600.woff2') format('woff2');" \
+		"}" \
+		"" \
+		"@font-face {" \
+		"    font-family: 'Inter';" \
+		"    font-style: normal;" \
+		"    font-weight: 700;" \
+		"    font-display: swap;" \
+		"    src: url('/static/fonts/inter-700.woff2') format('woff2');" \
+		"}" \
+		"" \
+		"@font-face {" \
+		"    font-family: 'Inter';" \
+		"    font-style: normal;" \
+		"    font-weight: 800;" \
+		"    font-display: swap;" \
+		"    src: url('/static/fonts/inter-800.woff2') format('woff2');" \
+		"}" > "$(CSS_DIR)/inter.css"
 	@curl -sL "$(JB_NF_BASE)/Regular/JetBrainsMonoNerdFontMono-Regular.woff2" -o "$(FONTS_DIR)/JetBrainsMonoNerdFontMono-Regular.woff2"
 	@curl -sL "$(JB_NF_BASE)/Bold/JetBrainsMonoNerdFontMono-Bold.woff2" -o "$(FONTS_DIR)/JetBrainsMonoNerdFontMono-Bold.woff2"
 	@printf '%s\n' \
@@ -76,6 +114,7 @@ verify-assets: ## Verify required assets exist
 	@test -f $(JS_DIR)/tailwindcss.js || (echo "$(YELLOW)tailwindcss.js missing. Run 'make assets'$(NC)" && exit 1)
 	@test -f $(JS_DIR)/lucide.min.js || (echo "$(YELLOW)lucide.min.js missing. Run 'make assets'$(NC)" && exit 1)
 	@test -f $(CSS_DIR)/inter.css || (echo "$(YELLOW)inter.css missing. Run 'make assets'$(NC)" && exit 1)
+	@test -f $(FONTS_DIR)/inter-400.woff2 || (echo "$(YELLOW)Inter woff2 missing. Run 'make assets'$(NC)" && exit 1)
 	@test -f $(CSS_DIR)/jetbrains-mono.css || (echo "$(YELLOW)jetbrains-mono.css missing. Run 'make assets'$(NC)" && exit 1)
 	@test -f $(FONTS_DIR)/JetBrainsMonoNerdFontMono-Regular.woff2 || (echo "$(YELLOW)JetBrains Mono Nerd Font missing. Run 'make assets'$(NC)" && exit 1)
 	@echo "$(GREEN)Assets verified$(NC)"
