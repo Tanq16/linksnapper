@@ -16,6 +16,7 @@
 - [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Tips and Notes](#tips-and-notes)
 
 # Motivation
 
@@ -88,7 +89,14 @@ You can download the required binary for your system from the project releases. 
 ```bash
 git clone https://github.com/tanq16/linksnapper.git && \
 cd linksnapper && \
-go build ./cmd/linksnapper
+make build
+# or: go build .
+```
+
+This produces a `linksnapper` binary. Run it with:
+
+```bash
+./linksnapper serve
 ```
 
 # Usage
@@ -97,6 +105,19 @@ Access the web interface through your browser at `http://localhost:8080/`
 
 > [!NOTE]
 > This app has no authentication, so deploy carefully. It works well with a reverse proxy like Nginx Proxy Manager and is mainly intended for homelab use.
+
+### `linksnapper serve`
+
+Starts the web server:
+
+```bash
+linksnapper serve -p 8080 -H 0.0.0.0 -d ./data
+```
+
+**Flags:**
+- `-p, --port` - Port to listen on (default: `8080`)
+- `-H, --host` - Host to bind to (default: `0.0.0.0`)
+- `-d, --data` - Data directory for storage (default: `data`)
 
 ### REST API
 
@@ -137,3 +158,10 @@ curl -X PUT http://localhost:8080/api/links/{id} \
     "path": ["New", "Category", "Path"]
 }'
 ```
+
+# Tips and Notes
+
+- **No authentication**: LinkSnapper has no built-in auth, so don't expose it directly to the internet. Put it behind a reverse proxy (e.g. Nginx Proxy Manager, Caddy, Traefik) with access controls, or keep it on a trusted local/VPN network.
+- **Back up your data**: all bookmarks live in a single flat file at `data/links.json` (or whatever directory you pass to `-d`/`--data`). Back up this file/volume regularly since it's the only source of truth.
+- **Reverse proxy**: LinkSnapper is plain HTTP with no WebSocket usage, so a standard `proxy_pass`/reverse proxy config to the container's port (default `8080`) is all that's needed.
+- **Building locally**: `make build` (or `go build .`) downloads frontend assets and compiles the `linksnapper` binary in one step; run it with `./linksnapper serve`.

@@ -1,26 +1,35 @@
-FROM golang:alpine AS builder
+# Build stage
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
+# Install build dependencies
+RUN apk add --no-cache git curl make
+
+# Copy go mod files
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source code
 COPY . .
 
-# Build the application
-RUN go build -o linksnapper ./cmd
+ARG VERSION=dev-build
 
-# -----------------------
+# Download assets and build
+RUN make assets && \
+    CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w -X 'github.com/tanq16/linksnapper/cmd.AppVersion=${VERSION}'" -o linksnapper .
 
+# Runtime stage
 FROM alpine:latest
 
+RUN apk --no-cache add ca-certificates tzdata
 WORKDIR /app
 
-# Create data directory if not exists
-RUN mkdir -p /app/data
-
-# Copy the binary from builder
 COPY --from=builder /app/linksnapper .
 
-# Expose the default port
-EXPOSE 8080
+RUN mkdir -p /app/data
+VOLUME ["/app/data"]
 
-# Run the server
-CMD ["./linksnapper"]
+EXPOSE 8080
+ENTRYPOINT ["./linksnapper"]
+CMD ["serve", "-d", "/app/data", "-H", "0.0.0.0"]
