@@ -12,56 +12,53 @@
     <link rel="icon" type="image/x-icon" href="/static/icons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
-    <title>LinkSnapper</title>
-
     <link href="/static/css/inter.css" rel="stylesheet">
     <link href="/static/css/jetbrains-mono.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/static/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/devicon.min.css">
     <script src="/static/js/tailwindcss.js"></script>
     <script src="/static/js/lucide.min.js"></script>
-
+    <title>LinkSnapper</title>
     <script>
         tailwind.config = {
-          darkMode: 'class',
-          theme: {
-            extend: {
-              fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                mono: ['JetBrains Mono', 'monospace'],
-              },
-              colors: {
-
-                'ctp-rosewater': '#f5e0dc', rosewater: '#f5e0dc',
-                'ctp-flamingo': '#f2cdcd', flamingo: '#f2cdcd',
-                'ctp-pink': '#f5c2e7', pink: '#f5c2e7',
-                'ctp-mauve': '#cba6f7', mauve: '#cba6f7',
-                'ctp-red': '#f38ba8', red: '#f38ba8',
-                'ctp-maroon': '#eba0ac', maroon: '#eba0ac',
-                'ctp-peach': '#fab387', peach: '#fab387',
-                'ctp-yellow': '#f9e2af', yellow: '#f9e2af',
-                'ctp-green': '#a6e3a1', green: '#a6e3a1',
-                'ctp-teal': '#94e2d5', teal: '#94e2d5',
-                'ctp-sky': '#89dceb', sky: '#89dceb',
-                'ctp-sapphire': '#74c7ec', sapphire: '#74c7ec',
-                'ctp-blue': '#89b4fa', blue: '#89b4fa',
-                'ctp-lavender': '#b4befe', lavender: '#b4befe',
-                'ctp-text': '#cdd6f4', text: '#cdd6f4',
-                'ctp-subtext1': '#bac2de', subtext1: '#bac2de',
-                'ctp-subtext0': '#a6adc8', subtext0: '#a6adc8',
-                'ctp-overlay2': '#9399b2', overlay2: '#9399b2',
-                'ctp-overlay1': '#7f849c', overlay1: '#7f849c',
-                'ctp-overlay0': '#6c7086', overlay0: '#6c7086',
-                'ctp-surface2': '#585b70', surface2: '#585b70',
-                'ctp-surface1': '#45475a', surface1: '#45475a',
-                'ctp-surface0': '#313244', surface0: '#313244',
-                'ctp-base': '#1e1e2e', base: '#1e1e2e',
-                'ctp-mantle': '#181825', mantle: '#181825',
-                'ctp-crust': '#11111b', crust: '#11111b'
-
-              }
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        'ctp-rosewater': '#f5e0dc', rosewater: '#f5e0dc',
+                        'ctp-flamingo': '#f2cdcd', flamingo: '#f2cdcd',
+                        'ctp-pink': '#f5c2e7', pink: '#f5c2e7',
+                        'ctp-mauve': '#cba6f7', mauve: '#cba6f7',
+                        'ctp-red': '#f38ba8', red: '#f38ba8',
+                        'ctp-maroon': '#eba0ac', maroon: '#eba0ac',
+                        'ctp-peach': '#fab387', peach: '#fab387',
+                        'ctp-yellow': '#f9e2af', yellow: '#f9e2af',
+                        'ctp-green': '#a6e3a1', green: '#a6e3a1',
+                        'ctp-teal': '#94e2d5', teal: '#94e2d5',
+                        'ctp-sky': '#89dceb', sky: '#89dceb',
+                        'ctp-sapphire': '#74c7ec', sapphire: '#74c7ec',
+                        'ctp-blue': '#89b4fa', blue: '#89b4fa',
+                        'ctp-lavender': '#b4befe', lavender: '#b4befe',
+                        'ctp-text': '#cdd6f4', text: '#cdd6f4',
+                        'ctp-subtext1': '#bac2de', subtext1: '#bac2de',
+                        'ctp-subtext0': '#a6adc8', subtext0: '#a6adc8',
+                        'ctp-overlay2': '#9399b2', overlay2: '#9399b2',
+                        'ctp-overlay1': '#7f849c', overlay1: '#7f849c',
+                        'ctp-overlay0': '#6c7086', overlay0: '#6c7086',
+                        'ctp-surface2': '#585b70', surface2: '#585b70',
+                        'ctp-surface1': '#45475a', surface1: '#45475a',
+                        'ctp-surface0': '#313244', surface0: '#313244',
+                        'ctp-base': '#1e1e2e', base: '#1e1e2e',
+                        'ctp-mantle': '#181825', mantle: '#181825',
+                        'ctp-crust': '#11111b', crust: '#11111b',
+                    }
+                }
             }
-          }
-        }
+        };
     </script>
     <style>
         :root {
@@ -75,118 +72,169 @@
             --surface1: #45475a; --surface0: #313244; --base: #1e1e2e;
             --mantle: #181825; --crust: #11111b;
         }
-
+        body { font-family: 'Inter', sans-serif; }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #11111b; }
-        ::-webkit-scrollbar-thumb { background: #313244; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #45475a; }
-
+        ::-webkit-scrollbar-track { background: var(--crust); }
+        ::-webkit-scrollbar-thumb { background: var(--surface0); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--surface1); }
         summary { list-style: none; cursor: pointer; }
         summary::-webkit-details-marker { display: none; }
+        .view { display: none; }
+        .view.active { display: block; }
         .chevron-icon { transition: transform 0.2s ease-in-out; flex-shrink: 0; }
         details[open] > summary > .chevron-icon { transform: rotate(90deg); }
-</style>
+        .bm-folder > .bm-folder-body { margin-left: 0.75rem; padding-left: 0.875rem; border-left: 1px solid var(--surface0); }
+        .path-btn.active { background: var(--surface0); color: var(--text); }
+        .path-btn.active-child { background: color-mix(in srgb, var(--mauve) 12%, transparent); color: var(--mauve); }
+        #iconMoreBtn .icon-more-chevron { transition: transform 0.2s ease; }
+        #iconMoreBtn.is-expanded .icon-more-chevron { transform: rotate(180deg); }
+        #iconPicker { display: grid; grid-template-columns: repeat(auto-fill, 1.75rem); gap: 0.25rem; justify-content: start; }
+        .icon-pick { width: 1.75rem; height: 1.75rem; }
+        .icon-pick.selected { background: var(--mauve); color: var(--crust); }
+        .swatch.selected { outline: 2px solid var(--text); outline-offset: 2px; }
+        .action-buttons { opacity: 0; transition: opacity 0.15s ease; }
+        .group:hover .action-buttons, .group:focus-within .action-buttons { opacity: 1; }
+        @media (hover: none) { .action-buttons { opacity: 1; } }
+    </style>
 </head>
-
 <body class="bg-mantle text-text font-sans antialiased min-h-screen">
-    <div class="relative min-h-screen flex">
-
-        <aside id="sidebar" class="bg-mantle w-72 p-6 flex-shrink-0 flex-col z-30 border-r border-surface0 lg:relative hidden lg:flex h-screen sticky top-0">
-            <div class="flex items-center justify-between flex-shrink-0 mb-8">
-                <h1 class="text-xl font-bold text-mauve flex items-center">
-                    <img src="/static/icons/logo.png" alt="LinkSnapper Logo" class="w-8 h-8 mr-3">
-                    LinkSnapper
-                </h1>
-                <button id="open-settings-btn" class="text-subtext1 hover:text-rosewater">
-                    <i data-lucide="settings-2"></i>
+    <header class="sticky top-0 z-30 bg-mantle/95 backdrop-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            <a href="#bookmarks" class="text-xl font-bold text-mauve flex items-center flex-shrink-0">
+                <img src="/static/icons/logo.png" alt="LinkSnapper Logo" class="w-8 h-8 mr-3">
+                <span class="hidden sm:inline">LinkSnapper</span>
+            </a>
+            <nav class="flex items-center gap-1 p-1 rounded-full bg-base" aria-label="Primary">
+                <button data-view="bookmarks" class="view-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors">
+                    <i data-lucide="bookmark" class="w-4 h-4"></i><span class="hidden sm:inline">Bookmarks</span>
                 </button>
-            </div>
-            <div id="bookmarks-container" class="overflow-y-auto flex-grow pr-2 space-y-4 text-sm scrollbar-thin"></div>
-        </aside>
+                <button data-view="resources" class="view-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors">
+                    <i data-lucide="library" class="w-4 h-4"></i><span class="hidden sm:inline">Resources</span>
+                </button>
+                <button data-view="settings" class="view-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors">
+                    <i data-lucide="settings-2" class="w-4 h-4"></i><span class="hidden sm:inline">Settings</span>
+                </button>
+            </nav>
+        </div>
+    </header>
 
-        <div class="flex-1 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 overflow-y-auto h-screen">
-
-        <header class="space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:gap-6 mb-8">
-
-            <div class="flex items-center gap-2 w-full justify-end">
-
-                <div class="relative flex-grow">
-                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-subtext0"></i>
-                    <input type="text" id="searchInput" placeholder="Search..." class="w-full bg-crust border border-surface0 rounded-full py-2.5 pl-12 pr-4 text-text placeholder:text-subtext0 focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-mantle transition-all">
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <button id="addLinkBtn" title="Add New Link" class="flex-shrink-0 w-11 h-11 flex items-center justify-center bg-mauve text-crust rounded-full hover:brightness-110 transition-all focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-mantle">
+    <section id="view-bookmarks" class="view">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+                <div><h1 class="text-2xl font-bold tracking-tight">Bookmarks</h1><p class="text-sm text-subtext0 mt-1">Quick Access Destinations</p></div>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <div class="relative flex-grow sm:w-72">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-subtext0"></i>
+                        <input id="bmSearch" type="search" placeholder="Filter bookmarks…" class="w-full bg-crust rounded-full py-2.5 pl-12 pr-4 text-text placeholder:text-subtext0 focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-mantle">
+                    </div>
+                    <button id="addBmBtn" type="button" title="Add bookmark" class="flex-shrink-0 w-11 h-11 flex items-center justify-center bg-mauve text-crust rounded-full hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-mantle">
                         <i data-lucide="plus" class="w-5 h-5"></i>
                     </button>
-                    <button id="downloadLinksBtn" title="Download Links" class="flex-shrink-0 w-11 h-11 flex items-center justify-center bg-surface0 text-subtext1 rounded-full hover:bg-surface1 hover:text-text transition-colors">
-                        <i data-lucide="download" class="w-5 h-5"></i>
+                </div>
+            </div>
+            <div id="addBmForm" class="bg-base p-6 rounded-lg mb-8 hidden">
+                <form id="bookmarkForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="text-sm font-medium text-subtext1">Name<input id="bmName" type="text" required placeholder="Portainer" class="mt-1.5 w-full bg-crust rounded-md p-2.5 text-text placeholder:text-overlay0 focus:outline-none focus:ring-2 focus:ring-mauve"></label>
+                        <label class="text-sm font-medium text-subtext1">URL<input id="bmUrl" type="url" required placeholder="https://…" class="mt-1.5 w-full bg-crust rounded-md p-2.5 text-text placeholder:text-overlay0 focus:outline-none focus:ring-2 focus:ring-mauve"></label>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-x-4 gap-y-1.5 items-center">
+                        <label for="bmFolder" class="lg:col-span-7 text-sm font-medium text-subtext1">Folder <span class="text-overlay0 font-normal">(e.g. Homelab/Infra)</span></label>
+                        <span class="lg:col-span-5 text-sm font-medium text-subtext1">Color</span>
+                        <input id="bmFolder" type="text" placeholder="Uncategorized" class="lg:col-span-7 w-full bg-crust rounded-md p-2.5 text-text placeholder:text-overlay0 focus:outline-none focus:ring-2 focus:ring-mauve">
+                        <div id="colorPicker" class="lg:col-span-5 flex flex-wrap gap-2 items-center"></div>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-subtext1">Icon</span>
+                            <button type="button" id="iconMoreBtn" class="text-xs text-mauve hover:text-lavender flex items-center gap-1">
+                                <span id="iconMoreLabel">Show more</span><i data-lucide="chevron-down" class="icon-more-chevron w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <div id="iconPicker"></div>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="button" id="cancelBmBtn" class="text-subtext1 font-semibold px-4 py-2 rounded-lg hover:bg-surface1 hover:text-text">Cancel</button>
+                        <button type="submit" id="saveBmBtn" class="bg-mauve text-crust font-semibold px-4 py-2 rounded-lg hover:brightness-110">Save Bookmark</button>
+                    </div>
+                </form>
+            </div>
+            <div id="bookmarksRoot" class="space-y-8"></div>
+            <p id="bmEmpty" class="hidden text-center text-subtext0 py-16">No bookmarks found.</p>
+        </div>
+    </section>
+
+    <section id="view-resources" class="view">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+                <div><h1 class="text-2xl font-bold tracking-tight">Resources</h1><p class="text-sm text-subtext0 mt-1">Saved Link Library</p></div>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <div class="relative flex-grow sm:w-72">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-subtext0"></i>
+                        <input id="resSearch" type="search" placeholder="Search resources…" class="w-full bg-crust rounded-full py-2.5 pl-12 pr-4 text-text placeholder:text-subtext0 focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-mantle">
+                    </div>
+                    <button id="addLinkBtn" type="button" title="Add resource" class="flex-shrink-0 w-11 h-11 flex items-center justify-center bg-mauve text-crust rounded-full hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-mantle">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
-        </header>
-
-        <div id="addLinkForm" class="bg-base p-6 rounded-lg mb-8" style="display: none;">
-            <form id="linkForm" class="space-y-4">
-                <div>
-                    <label for="url" class="block mb-1.5 text-sm font-medium text-subtext1">URL</label>
-                    <input type="url" id="url" name="url" required class="w-full bg-crust border border-surface0 rounded-md p-2.5 text-text focus:outline-none focus:ring-2 focus:ring-mauve focus:border-surface1">
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="name" class="block mb-1.5 text-sm font-medium text-subtext1">Name</label>
-                        <input type="text" id="name" name="name" class="w-full bg-crust border border-surface0 rounded-md p-2.5 text-text focus:outline-none focus:ring-2 focus:ring-mauve focus:border-surface1">
+            <div id="addLinkForm" class="bg-base p-6 rounded-lg mb-8 hidden">
+                <form id="linkForm" class="space-y-4">
+                    <label class="block text-sm font-medium text-subtext1">URL<input id="url" type="url" required placeholder="https://…" class="mt-1.5 w-full bg-crust rounded-md p-2.5 text-text placeholder:text-overlay0 focus:outline-none focus:ring-2 focus:ring-mauve"></label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="text-sm font-medium text-subtext1">Name<input id="name" type="text" placeholder="Optional — defaults to URL" class="mt-1.5 w-full bg-crust rounded-md p-2.5 text-text placeholder:text-overlay0 focus:outline-none focus:ring-2 focus:ring-mauve"></label>
+                        <label class="relative text-sm font-medium text-subtext1">Category <span class="text-overlay0 font-normal">(e.g. Tech/Go)</span><input id="category" type="text" placeholder="Uncategorized" autocomplete="off" class="mt-1.5 w-full bg-crust rounded-md p-2.5 text-text placeholder:text-overlay0 focus:outline-none focus:ring-2 focus:ring-mauve"><span id="categorySuggestions" class="hidden absolute top-full left-0 right-0 bg-surface0 rounded-md mt-1 max-h-60 overflow-y-auto z-20 shadow-xl"></span></label>
                     </div>
-                    <div class="relative">
-                        <label for="category" class="block mb-1.5 text-sm font-medium text-subtext1">Category (e.g. Tech/Go)</label>
-                        <input type="text" id="category" name="category" placeholder="Uncategorized" class="w-full bg-crust border border-surface0 rounded-md p-2.5 text-text focus:outline-none focus:ring-2 focus:ring-mauve focus:border-surface1">
+                    <label class="block text-sm font-medium text-subtext1">Description<textarea id="description" rows="3" class="mt-1.5 w-full bg-crust rounded-md p-2.5 text-text resize-y focus:outline-none focus:ring-2 focus:ring-mauve"></textarea></label>
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="button" id="cancelLinkBtn" class="text-subtext1 font-semibold px-4 py-2 rounded-lg hover:bg-surface1 hover:text-text">Cancel</button>
+                        <button type="submit" id="saveLinkBtn" class="bg-mauve text-crust font-semibold px-4 py-2 rounded-lg hover:brightness-110">Save Link</button>
                     </div>
-                </div>
-                <div>
-                    <label for="description" class="block mb-1.5 text-sm font-medium text-subtext1">Description</label>
-                    <textarea id="description" name="description" rows="3" class="w-full bg-crust border border-surface0 rounded-md p-2.5 text-text focus:outline-none focus:ring-2 focus:ring-mauve focus:border-surface1"></textarea>
-                </div>
-                <div class="flex justify-end gap-3 pt-2">
-                    <button type="button" id="cancelBtn" class="bg-transparent border border-surface1 text-subtext1 font-semibold px-4 py-2 rounded-lg hover:bg-surface1 hover:text-text transition-colors">Cancel</button>
-                    <button type="submit" class="bg-mauve text-crust font-semibold px-4 py-2 rounded-lg hover:brightness-110 transition-all">Save Link</button>
-                </div>
-            </form>
-        </div>
-
-        <nav id="breadcrumb" class="flex items-center justify-center gap-2 text-sm text-subtext0 mb-8">
-        </nav>
-
-        <main id="contentArea">
-        </main>
-    </div>
-
-    <div id="settings-modal" class="fixed inset-0 bg-black/70 z-40 hidden items-center justify-center">
-        <div class="bg-crust p-6 rounded-lg w-full max-w-3xl h-[80vh] flex flex-col shadow-2xl">
-            <div class="flex justify-between items-center mb-4 flex-shrink-0">
-                <h2 class="text-xl font-bold text-mauve flex items-center">
-                    <i data-lucide="settings-2" class="mr-3"></i>Edit Configuration
-                </h2>
-                <button id="close-modal-btn" class="text-subtext1 hover:text-rosewater">
-                    <i data-lucide="x"></i>
-                </button>
+                </form>
             </div>
-            <textarea id="config-editor" class="w-full flex-grow bg-base text-text p-4 rounded-md font-mono text-sm resize-none border border-surface0 focus:outline-none focus:ring-2 focus:ring-mauve"></textarea>
-            <div id="save-status" class="text-sm h-5 mt-2 text-subtext1"></div>
-            <div class="flex justify-end space-x-4 mt-2 flex-shrink-0">
-                <button id="cancel-btn" class="px-5 py-2 bg-surface1 rounded-md hover:bg-surface2 transition-colors">Cancel</button>
-                <button id="save-btn" class="px-5 py-2 bg-blue text-base rounded-md hover:bg-sapphire transition-colors font-semibold flex items-center">
-                    <span id="save-btn-text">Save</span>
-                    <div id="save-spinner" class="w-4 h-4 border-2 border-base border-t-transparent rounded-full animate-spin ml-2 hidden"></div>
-                </button>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <aside class="lg:w-52 flex-shrink-0">
+                    <div class="text-[11px] uppercase tracking-widest text-lavender font-bold mb-3">Paths</div>
+                    <nav id="pathTree" class="space-y-0.5 text-sm"></nav>
+                </aside>
+                <main class="flex-1 min-w-0">
+                    <div class="flex items-baseline justify-between mb-4">
+                        <div><div id="resPathLabel" class="text-[11px] text-overlay1 font-mono mb-0.5">All resources</div><h2 id="resTitle" class="text-xl font-semibold tracking-tight">Library</h2></div>
+                        <span id="resCount" class="text-xs text-overlay0 font-mono"></span>
+                    </div>
+                    <div id="linkList" class="space-y-0.5"></div>
+                    <p id="resEmpty" class="hidden text-center text-subtext0 py-12">No matches found.</p>
+                </main>
             </div>
         </div>
-    </div>
+    </section>
 
+    <section id="view-settings" class="view">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="mb-10"><h1 class="text-2xl font-bold tracking-tight">Settings</h1><p class="text-sm text-subtext0 mt-1">Import, export, and app information.</p></div>
+            <section class="mb-10">
+                <h2 class="text-xs uppercase tracking-widest text-lavender font-bold mb-4">Data</h2>
+                <div class="space-y-3">
+                    <div class="flex items-start justify-between gap-6 bg-base rounded-lg px-5 py-4"><div><div class="text-sm font-medium">Export resources</div><p class="text-xs text-subtext0 mt-1">Download all saved links as JSON.</p></div><button id="exportResourcesBtn" type="button" class="flex-shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface0 text-sm text-subtext1 hover:bg-surface1 hover:text-text transition-colors"><i data-lucide="download" class="w-4 h-4"></i>Export</button></div>
+                    <div class="flex items-start justify-between gap-6 bg-base rounded-lg px-5 py-4"><div><div class="text-sm font-medium">Import resources</div><p class="text-xs text-subtext0 mt-1">Merge links from a JSON export into your library.</p></div><button id="importResourcesBtn" type="button" class="flex-shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface0 text-sm text-subtext1 hover:bg-surface1 hover:text-text transition-colors"><i data-lucide="upload" class="w-4 h-4"></i>Import</button></div>
+                    <div class="flex items-start justify-between gap-6 bg-base rounded-lg px-5 py-4"><div><div class="text-sm font-medium">Export bookmarks</div><p class="text-xs text-subtext0 mt-1">Download your quick-access bookmarks as JSON.</p></div><button id="exportBookmarksBtn" type="button" class="flex-shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface0 text-sm text-subtext1 hover:bg-surface1 hover:text-text transition-colors"><i data-lucide="download" class="w-4 h-4"></i>Export</button></div>
+                    <div class="flex items-start justify-between gap-6 bg-base rounded-lg px-5 py-4"><div><div class="text-sm font-medium">Import bookmarks</div><p class="text-xs text-subtext0 mt-1">Merge bookmarks from a JSON export into your set.</p></div><button id="importBookmarksBtn" type="button" class="flex-shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface0 text-sm text-subtext1 hover:bg-surface1 hover:text-text transition-colors"><i data-lucide="upload" class="w-4 h-4"></i>Import</button></div>
+                </div>
+                <input id="resourcesFileInput" type="file" accept="application/json,.json" class="hidden">
+                <input id="bookmarksFileInput" type="file" accept="application/json,.json" class="hidden">
+            </section>
+            <section class="mb-10"><h2 class="text-xs uppercase tracking-widest text-lavender font-bold mb-4">Backups</h2><div class="bg-base rounded-lg px-5 py-4"><div class="text-sm font-medium">Automatic backups</div><p class="text-xs text-subtext0 mt-1">Coming later — scheduled snapshots of resources and bookmarks.</p></div></section>
+            <section>
+                <h2 class="text-xs uppercase tracking-widest text-lavender font-bold mb-4">About</h2>
+                <div class="bg-base rounded-lg px-5 py-4 flex items-center justify-between gap-4">
+                    <div><div class="text-sm font-medium">LinkSnapper</div><p id="appVersion" class="text-xs text-subtext0 mt-1 font-mono">dev</p><a href="https://github.com/tanq16/linksnapper" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs text-mauve hover:text-lavender mt-2"><i class="fab fa-github"></i>github.com/tanq16/linksnapper<i data-lucide="external-link" class="w-3 h-3"></i></a></div>
+                    <img src="/static/icons/logo.png" alt="" class="w-8 h-8 opacity-80 flex-shrink-0">
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <div id="toast" class="fixed bottom-4 right-4 hidden z-50 bg-surface0 text-text px-4 py-3 rounded-lg shadow-xl" role="status"></div>
     <script src="/static/app.js"></script>
-    <script>
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    </script>
 </body>
 </html>
