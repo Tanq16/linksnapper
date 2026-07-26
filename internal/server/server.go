@@ -3,7 +3,6 @@ package server
 import (
 	"context"
 	"embed"
-	"encoding/json"
 	"fmt"
 	"io/fs"
 	"net/http"
@@ -18,16 +17,18 @@ type Server struct {
 	mux        *http.ServeMux
 	httpServer *http.Server
 	store      Store
+	bookmarks  *BookmarkStore
 	dataDir    string
 }
 
 func New(host string, port int, store Store, dataDir string) *Server {
 	return &Server{
-		host:    host,
-		port:    port,
-		mux:     http.NewServeMux(),
-		store:   store,
-		dataDir: dataDir,
+		host:      host,
+		port:      port,
+		mux:       http.NewServeMux(),
+		store:     store,
+		bookmarks: NewBookmarkStore(dataDir),
+		dataDir:   dataDir,
 	}
 }
 
@@ -41,9 +42,14 @@ func (s *Server) Setup() error {
 	s.mux.HandleFunc("/api/health", s.handleHealth)
 	s.mux.HandleFunc("/api/links", s.handleLinks)
 	s.mux.HandleFunc("/api/categories", s.handleCategories)
-	s.mux.HandleFunc("/api/bookmarks", s.handleBookmarksGet)
+	s.mux.HandleFunc("/api/bookmarks", s.handleBookmarks)
+	s.mux.HandleFunc("/api/bookmarks/", s.handleBookmarksPath)
 	s.mux.HandleFunc("/api/config", s.handleConfigRaw)
 	s.mux.HandleFunc("/api/links/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/api/links/import" {
+			s.handleLinksImport(w, r)
+			return
+		}
 		switch r.Method {
 		case http.MethodDelete:
 			s.handleLinkDelete(w, r)
@@ -85,5 +91,5 @@ func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+	writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 }
