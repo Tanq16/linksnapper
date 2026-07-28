@@ -641,9 +641,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }).observe(elements.iconPicker.parentElement);
     }
 
-    api('/api/health').then((health) => {
-        if (health?.version) document.getElementById('appVersion').textContent = String(health.version);
-    }).catch(() => {});
     if (!window.location.hash) window.location.hash = 'bookmarks';
     readRoute();
     renderColorPicker();
